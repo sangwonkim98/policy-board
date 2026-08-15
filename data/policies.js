@@ -1,0 +1,764 @@
+window.POLICY_DB_META = {
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T16:52:25.378Z",
+  "sources": [
+    "manual"
+  ]
+};
+window.POLICY_DB = [
+  {
+    "source": "manual",
+    "id": "cuk-leewongil",
+    "name": "이원길 장학금 (2026-2학기)",
+    "org": "가톨릭대 학부대학운영팀",
+    "region": "교내",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-07-13",
+    "close": "2026-09-20",
+    "amount": "학술·봉사·설계 1인당 200만원 · 창업 차등 (총 5천만원)",
+    "elig": "본교 학부·대학원 재학생. 초과학기 가능, 휴학·수료·수료유예 불가. 시상식(10/22) 참석 가능자",
+    "url": "https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274579&srCategoryId=22",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "학술 부문 = 논문 20p 이내 제출. 트리니티 신청은 8/31~9/20 별도",
+    "rules": {
+      "school": "가톨릭",
+      "status": [
+        "대학생",
+        "대학원생"
+      ],
+      "todo": [
+        "학술 부문이면 논문 20p 이내 원고 준비",
+        "트리니티 신청은 8/31~9/20 별도 진행",
+        "10/22 시상식 참석 일정 확보"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "cuk-sontaehee",
+    "name": "손태희장학재단 장학생",
+    "org": "가톨릭대 학생지원팀",
+    "region": "교내",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-08-14",
+    "close": null,
+    "amount": "금액 확인 필요",
+    "elig": "교내 공지 경유 외부 장학재단 사업. 세부 자격은 원문 확인",
+    "url": "https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274779&srCategoryId=22",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "8/14 공지 — 마감일·자격·금액 미확인",
+    "rules": {
+      "school": "가톨릭",
+      "status": [
+        "대학생",
+        "대학원생"
+      ],
+      "unsure": [
+        "공고 원문에서 자격·마감·금액 확인 필요 (현재 미확인)"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "sejong-ido",
+    "name": "세종이도인재장학금 (특기적성)",
+    "org": "세종특별자치시",
+    "region": "전국",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-08-10",
+    "close": "2026-09-30",
+    "amount": "대학생 1인당 150만원",
+    "elig": "① 특기 분야 1년 이내 전국규모 대회 3위 이내 입상 + ② 세종시 소재 학교 재학 또는 1년 이상 세종시 거주",
+    "url": "https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274685&srCategoryId=22",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "이메일 접수 jh@sri.re.kr",
+    "rules": {
+      "region": [
+        "세종"
+      ],
+      "status": [
+        "대학생",
+        "대학원생"
+      ],
+      "regionFailMsg": "세종시 거주 또는 세종시 소재 학교 재학이어야 합니다",
+      "unsure": [
+        "1년 이내 전국규모 대회 3위 이내 입상 실적 보유 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "housing-scholar-2",
+    "name": "주거안정장학금 2026-2학기 2차",
+    "org": "한국장학재단",
+    "region": "전국",
+    "target": [
+      "학생"
+    ],
+    "cat": "주거",
+    "open": "2026-08-12",
+    "close": null,
+    "amount": "금액 확인 필요",
+    "elig": "원거리 진학으로 타지역 거주 중인 학부생 대상 주거비 지원",
+    "url": "https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274649&srCategoryId=22",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "마감일 미확인 — 국가장학금 2차와 동일 일정 추정",
+    "rules": {
+      "status": [
+        "대학생"
+      ],
+      "housing": [
+        "자취(월세)",
+        "자취(전세)",
+        "기숙사"
+      ],
+      "housingFailMsg": "본가 거주자는 주거비 지원 대상이 아닙니다",
+      "unsure": [
+        "원거리 진학 요건(주소지-학교 거리) 충족 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "seoul-loan-interest",
+    "name": "서울시 학자금대출이자 지원 2차",
+    "org": "서울특별시",
+    "region": "서울",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-08-03",
+    "close": "2026-09-15",
+    "amount": "학자금대출 이자 지원",
+    "elig": "서울 거주 대학생 중 학자금대출 이자 납부자",
+    "url": "https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274509&srCategoryId=22",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "학자금대출이 없으면 해당 없음",
+    "rules": {
+      "region": [
+        "서울"
+      ],
+      "status": [
+        "대학생",
+        "대학원생"
+      ],
+      "unsure": [
+        "학자금대출 보유 및 이자 납부 실적 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "ai-edu-scholar",
+    "name": "대학생 청소년 AI 교육지원장학생",
+    "org": "한국장학재단",
+    "region": "전국",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-08-05",
+    "close": "2026-08-16",
+    "amount": "활동 시급 18,000원 · 10명 내외 선발",
+    "elig": "2026-2학기 학부 재학생, 직전학기 70/100 이상, AI·SW 역량. 초·중·고 AI 학습지원(9~12월)",
+    "url": "https://www.kosaf.go.kr",
+    "checked": "2026-08-08",
+    "confidence": "verify",
+    "note": "활동계획서 + 학업시간표 + 희망기관 2곳 제출",
+    "rules": {
+      "status": [
+        "대학생"
+      ],
+      "unsure": [
+        "직전학기 성적 70/100 이상 여부"
+      ],
+      "todo": [
+        "AI 멘토링 활동계획서 작성",
+        "학업시간표 + 희망기관 2곳 선정"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "work-scholar-2",
+    "name": "국가근로장학금 2026-2학기 2차",
+    "org": "한국장학재단",
+    "region": "전국",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-08-12",
+    "close": "2026-09-09",
+    "amount": "교내·외 근로 시급 지급",
+    "elig": "2026-2학기 학부 재·신·편입생. 직전학기 성적 70점 이상, 학자금 지원구간 9구간 이하",
+    "url": "https://www.kosaf.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "동계방학 집중근로 희망자도 이 기간에 신청",
+    "rules": {
+      "status": [
+        "대학생"
+      ],
+      "incomeMax": 9,
+      "unsure": [
+        "직전학기 성적 70점 이상 여부"
+      ],
+      "todo": [
+        "희망근로지 선택"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "natl-scholar-2",
+    "name": "국가장학금 2026-2학기 2차",
+    "org": "한국장학재단",
+    "region": "전국",
+    "target": [
+      "학생"
+    ],
+    "cat": "장학",
+    "open": "2026-08-12",
+    "close": null,
+    "amount": "학자금 지원구간별 차등 지급",
+    "elig": "국내 대학 재학생. 소득구간·성적 기준 충족 시. 재학 중 2회 한정 구제 가능",
+    "url": "https://www.kosaf.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "2차 마감일 미확인 — 통상 9월 중순",
+    "rules": {
+      "status": [
+        "대학생"
+      ],
+      "incomeMax": 8,
+      "unsure": [
+        "직전학기 성적 기준(통상 B학점) 충족 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "ansan-jeonse",
+    "name": "안산시 청년 전·월세보증금 대출이자 지원",
+    "org": "안산시",
+    "region": "경기",
+    "target": [
+      "학생",
+      "직장인",
+      "구직"
+    ],
+    "cat": "주거",
+    "open": "2026-08-01",
+    "close": "2026-08-31",
+    "amount": "대출이자 실비 지원",
+    "elig": "안산시 거주 19~39세 무주택 청년. 2025-01-01~2026-06-30 대출이자 납부 실적 필요",
+    "url": "https://www.ansan.go.kr",
+    "checked": "2026-08-08",
+    "confidence": "verify",
+    "note": "전세·월세 대출이 없으면 해당 없음",
+    "rules": {
+      "region": [
+        "안산"
+      ],
+      "regionFailMsg": "안산시 거주자만 해당됩니다",
+      "age": {
+        "min": 19,
+        "max": 39
+      },
+      "housing": [
+        "자취(월세)",
+        "자취(전세)"
+      ],
+      "housingFailMsg": "전·월세 거주자만 해당됩니다",
+      "unsure": [
+        "전·월세보증금 대출 보유 및 2025.1~2026.6 이자 납부 실적"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "gg-exam-fee",
+    "name": "경기청년 역량강화 기회지원 (응시료)",
+    "org": "경기도일자리재단",
+    "region": "경기",
+    "target": [
+      "학생",
+      "구직"
+    ],
+    "cat": "역량",
+    "open": "2026-05-01",
+    "close": null,
+    "always": true,
+    "amount": "1인 최대 30만원 · 응시료 실비",
+    "elig": "어학시험 19종 + 국가기술자격 등 1,004종 응시료. 예산 소진 시 조기 마감",
+    "url": "https://www.gjf.or.kr",
+    "checked": "2026-08-08",
+    "confidence": "verify",
+    "note": "대상이 '경기도 내 미취업 청년' — 재학생 포함 여부 문의 필요 (031-8008-3472)",
+    "rules": {
+      "region": [
+        "경기"
+      ],
+      "age": {
+        "min": 19,
+        "max": 39,
+        "mil": 3
+      },
+      "unsure": [
+        "대상이 미취업 청년 — 재학생 포함 여부 확인 필요 (031-8008-3472)"
+      ],
+      "todo": [
+        "응시료 납부 영수증 보관"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "youth-rent",
+    "name": "청년월세 특별지원 (상시 전환)",
+    "org": "국토교통부",
+    "region": "전국",
+    "target": [
+      "학생",
+      "직장인",
+      "구직"
+    ],
+    "cat": "주거",
+    "open": "2026-01-01",
+    "close": null,
+    "always": true,
+    "amount": "월 최대 20만원 × 최대 24개월 (총 480만원)",
+    "elig": "무주택 청년. 2026년부터 상시 신청 제도로 전환. 생애 1회",
+    "url": "https://www.myhome.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "소득·자산 요건 있음. 지자체별 운영 차이 확인 필요",
+    "rules": {
+      "age": {
+        "min": 19,
+        "max": 34,
+        "mil": 3
+      },
+      "housing": [
+        "자취(월세)"
+      ],
+      "housingFailMsg": "월세 거주자만 해당됩니다",
+      "unsure": [
+        "청년 가구 중위소득 60% 이하 등 소득·자산 요건"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "gg-interview",
+    "name": "경기도 청년 면접수당",
+    "org": "경기도미래세대재단",
+    "region": "경기",
+    "target": [
+      "구직",
+      "학생"
+    ],
+    "cat": "취업",
+    "open": null,
+    "close": null,
+    "upcoming": true,
+    "amount": "면접 1회 5만원 지역화폐 · 연 최대 3회 15만원",
+    "elig": "주민등록상 경기도 거주 18~39세. 병역 이행자는 최대 3년 연장(최대 42세)",
+    "url": "https://www.gfgf.kr",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "1차 모집 6/24~7/23 종료. 2차 일정 미확인 — 상담센터 1877-2046",
+    "rules": {
+      "region": [
+        "경기"
+      ],
+      "age": {
+        "min": 18,
+        "max": 39,
+        "mil": 3
+      },
+      "unsure": [
+        "취업 면접 참여 실적 보유 여부"
+      ],
+      "todo": [
+        "면접확인서 발급받아 보관"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "gg-welfare-pt",
+    "name": "경기도 청년 복지포인트",
+    "org": "경기도일자리재단",
+    "region": "경기",
+    "target": [
+      "직장인"
+    ],
+    "cat": "복지",
+    "open": "2026-07-01",
+    "close": "2026-07-13",
+    "amount": "복지포인트 지급 (금액 확인 필요)",
+    "elig": "만19~39세 경기 거주 + 도내 중소·중견·소상공인·비영리법인 주 36시간 이상 재직자",
+    "url": "https://www.gjf.or.kr",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "2026년 모집 종료. 다음 회차 대기",
+    "rules": {
+      "region": [
+        "경기"
+      ],
+      "age": {
+        "min": 19,
+        "max": 39,
+        "mil": 3
+      },
+      "employment": [
+        "재직"
+      ],
+      "employmentFailMsg": "경기도 내 기업에 재직 중이어야 합니다",
+      "unsure": [
+        "주 36시간 이상 근무 + 도내 중소·중견기업 재직 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "seoul-future-job",
+    "name": "서울 미래 청년 일자리 2차",
+    "org": "서울특별시",
+    "region": "서울",
+    "target": [
+      "구직"
+    ],
+    "cat": "취업",
+    "open": "2026-08-03",
+    "close": "2026-08-14",
+    "amount": "참여기업 근무 · 급여 지급",
+    "elig": "만19~39세 서울 거주 미취업 청년. AI·문화콘텐츠·바이오헬스케어·제로웨이스트·소셜벤처",
+    "url": "https://youth.seoul.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "2차 모집 8/14 마감. 3차 여부 미공지",
+    "rules": {
+      "region": [
+        "서울"
+      ],
+      "age": {
+        "min": 19,
+        "max": 39
+      },
+      "employment": [
+        "미취업"
+      ],
+      "employmentFailMsg": "미취업 상태여야 합니다"
+    }
+  },
+  {
+    "source": "manual",
+    "id": "seoul-youth-allowance",
+    "name": "서울시 청년수당",
+    "org": "서울특별시",
+    "region": "서울",
+    "target": [
+      "구직"
+    ],
+    "cat": "생활",
+    "open": "2026-05-27",
+    "close": "2026-05-29",
+    "amount": "월 50만원 × 최대 6개월 (총 300만원)",
+    "elig": "만19~34세 서울 거주 미취업자 중 최종학력 졸업자. 2차 6,000명 내외",
+    "url": "https://youth.seoul.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "2026년 2차 모집 종료. 다음 연도 대기",
+    "rules": {
+      "region": [
+        "서울"
+      ],
+      "age": {
+        "min": 19,
+        "max": 34
+      },
+      "employment": [
+        "미취업"
+      ],
+      "status": [
+        "구직중",
+        "프리랜서"
+      ],
+      "statusFailMsg": "재학생은 대상이 아닙니다 (최종학력 졸업자만)"
+    }
+  },
+  {
+    "source": "manual",
+    "id": "seoul-rent",
+    "name": "서울시 청년월세지원",
+    "org": "서울주거포털",
+    "region": "서울",
+    "target": [
+      "학생",
+      "직장인",
+      "구직"
+    ],
+    "cat": "주거",
+    "open": "2026-05-06",
+    "close": "2026-05-19",
+    "amount": "월 최대 20만원 · 연 최대 240만원",
+    "elig": "만19~39세 서울 거주 무주택 청년. 2026년 1만 5천명 규모",
+    "url": "https://housing.seoul.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "2026년 모집 종료",
+    "rules": {
+      "region": [
+        "서울"
+      ],
+      "age": {
+        "min": 19,
+        "max": 39
+      },
+      "housing": [
+        "자취(월세)"
+      ],
+      "housingFailMsg": "월세 거주자만 해당됩니다"
+    }
+  },
+  {
+    "source": "manual",
+    "id": "gg-basic-income",
+    "name": "경기도 청년기본소득",
+    "org": "경기도",
+    "region": "경기",
+    "target": [
+      "학생",
+      "직장인",
+      "구직"
+    ],
+    "cat": "생활",
+    "open": null,
+    "close": null,
+    "upcoming": true,
+    "amount": "분기 25만원 지역화폐 · 연 최대 100만원",
+    "elig": "만 24세 경기도 청년만 해당. 분기별 신청",
+    "url": "https://apply.jobaba.net",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "만 24세 단일 연령. 3분기 신청기간 미확인",
+    "rules": {
+      "region": [
+        "경기"
+      ],
+      "ageExact": 24,
+      "ageFailMsg": "만 24세인 해에만 신청 가능합니다",
+      "unsure": [
+        "경기도 3년 이상 계속 거주 또는 합산 10년 요건"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "youth-future-savings",
+    "name": "청년미래적금",
+    "org": "금융위원회",
+    "region": "전국",
+    "target": [
+      "직장인",
+      "학생"
+    ],
+    "cat": "자산",
+    "open": "2026-06-22",
+    "close": "2026-07-03",
+    "amount": "정부 기여금 + 비과세 적금",
+    "elig": "만19~34세, 개인소득 연 7,500만원 이하, 중위소득 200% 이하",
+    "url": "https://www.fsc.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "2026년 자격조회 종료. 군복무 최대 6년 연령 차감",
+    "rules": {
+      "age": {
+        "min": 19,
+        "max": 34,
+        "mil": 6
+      },
+      "employment": [
+        "재직",
+        "아르바이트"
+      ],
+      "employmentFailMsg": "근로·사업소득이 있어야 합니다",
+      "unsure": [
+        "가구 중위소득 200% 이하 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "youth-savings-account",
+    "name": "청년내일저축계좌",
+    "org": "보건복지부",
+    "region": "전국",
+    "target": [
+      "직장인",
+      "구직"
+    ],
+    "cat": "자산",
+    "open": "2026-05-04",
+    "close": "2026-05-20",
+    "amount": "본인 저축 + 정부 매칭 지원금",
+    "elig": "만15~39세, 근로·사업소득 월 10만원 이상. 2026년부터 중위소득 50% 이하 수급자·차상위로 축소",
+    "url": "https://www.bokjiro.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "중위 50~100% 구간 신규 가입 중단됨",
+    "rules": {
+      "age": {
+        "min": 15,
+        "max": 39
+      },
+      "employment": [
+        "재직",
+        "아르바이트"
+      ],
+      "employmentFailMsg": "근로·사업소득 월 10만원 이상이어야 합니다",
+      "unsure": [
+        "기준 중위소득 50% 이하(수급자·차상위) 여부"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "youth-leap",
+    "name": "청년도약계좌",
+    "org": "서민금융진흥원",
+    "region": "전국",
+    "target": [
+      "직장인"
+    ],
+    "cat": "자산",
+    "open": null,
+    "close": "2025-12-31",
+    "amount": "—",
+    "elig": "신규 가입 종료. 기존 가입자의 청년미래적금 갈아타기만 가능",
+    "url": "https://www.kinfa.or.kr",
+    "checked": "2026-08-15",
+    "confidence": "confirmed",
+    "note": "2025년 12월 신규 가입 종료",
+    "rules": {
+      "closedForever": true
+    }
+  },
+  {
+    "source": "manual",
+    "id": "gg-dorm",
+    "name": "경기도장학관 (대학생 기숙사)",
+    "org": "경기도",
+    "region": "경기",
+    "target": [
+      "학생"
+    ],
+    "cat": "주거",
+    "open": null,
+    "close": null,
+    "upcoming": true,
+    "amount": "입사비 5만원 + 월 17만원 (식대 포함)",
+    "elig": "경기도 및 서울 소재 대학에 진학하는 경기도 내 대학생",
+    "url": "https://www.gg.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "모집 시기 미확인",
+    "rules": {
+      "region": [
+        "경기"
+      ],
+      "status": [
+        "대학생",
+        "대학원생"
+      ],
+      "todo": [
+        "모집 공고 시기 확인"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "youth-leap-job",
+    "name": "청년 일자리도약 장려금",
+    "org": "고용노동부",
+    "region": "전국",
+    "target": [
+      "구직"
+    ],
+    "cat": "취업",
+    "open": "2026-01-01",
+    "close": null,
+    "always": true,
+    "amount": "기업에 인건비 지원 (청년 채용 연계)",
+    "elig": "취업애로청년을 정규직 채용한 5인 이상 우선지원대상기업. 청년은 취업으로 간접 수혜",
+    "url": "https://www.work24.go.kr",
+    "checked": "2026-08-15",
+    "confidence": "verify",
+    "note": "기업이 신청하는 사업 — 구직 시 참여기업 탐색용",
+    "rules": {
+      "age": {
+        "min": 15,
+        "max": 34,
+        "mil": 3
+      },
+      "employment": [
+        "미취업"
+      ],
+      "employmentFailMsg": "미취업 상태에서 취업할 때 적용됩니다",
+      "unsure": [
+        "본인이 아닌 기업이 신청하는 사업 — 참여기업 채용공고를 통해 간접 수혜"
+      ]
+    }
+  },
+  {
+    "source": "manual",
+    "id": "kitpa-paper",
+    "name": "대학생 IT논문경진대회",
+    "org": "KITPA",
+    "region": "전국",
+    "target": [
+      "학생"
+    ],
+    "cat": "공모전",
+    "open": null,
+    "close": null,
+    "upcoming": true,
+    "amount": "수상 시 상금·수상실적",
+    "elig": "대학 재적생, 발표일 기준 만 30세 이하. 빅데이터·AI·AI융합응용 주제",
+    "url": "https://kitpa.org",
+    "checked": "2026-08-08",
+    "confidence": "verify",
+    "note": "하계 회차 일정 미확인",
+    "rules": {
+      "status": [
+        "대학생",
+        "대학원생"
+      ],
+      "age": {
+        "max": 30
+      },
+      "todo": [
+        "제출할 논문 원고 준비",
+        "회차 일정 확인"
+      ]
+    }
+  }
+];

@@ -16,10 +16,13 @@
 
 ## 구조
 
-정적 HTML 파일 하나. 서버도, 빌드도, 의존성도 없다.
+정적 HTML + 정적 데이터 파일. 서버도, 빌드도, 런타임 의존성도 없다.
 
 ```
-index.html   전체 앱 (데이터 + 판정 엔진 + UI)
+index.html   판정 엔진 + UI
+data/policies.json  정책 DB 원본
+data/policies.js    정적 앱 주입용 생성 파일
+tools/update-policies.mjs  정책 DB 검증·갱신 스크립트
 serve.py     로컬 확인용 정적 서버
 ```
 
@@ -63,7 +66,7 @@ python3 serve.py   # http://127.0.0.1:8765
 
 ## 데이터
 
-`index.html` 상단의 `POLICIES` 배열이 전부다. 2026-08-15 웹 조사 기준.
+`data/policies.json`의 `policies` 배열이 전부다. `data/policies.js`는 앱이 바로 읽도록 생성한 파일이다.
 
 수집 범위는 중앙부처(한국장학재단·국토부·고용노동부) + 서울시·경기도 광역 +
 안산시 + 가톨릭대 교내 장학 공지.
@@ -71,6 +74,20 @@ python3 serve.py   # http://127.0.0.1:8765
 **완전하지 않다.** 기초지자체 66곳은 미수집이고 교내 장학은 가톨릭대 기준이다.
 그래서 "전부 있다"가 아니라 "훑어서 판정해준다"로 포지셔닝한다.
 각 항목은 원문 링크와 조회일을 함께 싣고, 불확실한 값은 `confidence: "verify"`로 표시한다.
+
+### 갱신
+
+```bash
+node tools/update-policies.mjs
+```
+
+온통청년 청년정책 OPEN API 키가 있으면 더 넓게 자동 수집한다.
+
+```bash
+YOUTH_POLICY_API_KEY=... node tools/update-policies.mjs
+```
+
+GitHub Actions에 `YOUTH_POLICY_API_KEY` secret을 넣으면 `.github/workflows/update-policies.yml`이 매일 새벽 DB를 갱신하고 변경분을 커밋한다.
 
 ## 면책
 

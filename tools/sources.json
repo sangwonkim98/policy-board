@@ -1,0 +1,40 @@
+{
+  "sources": [
+    {
+      "id": "ontong-youth-policy-api",
+      "name": "온통청년 청년정책 OPEN API",
+      "url": "https://www.youthcenter.go.kr/cmnFooter/openapiIntro/oaiDoc",
+      "kind": "api",
+      "coverage": "전국 중앙정부·지자체 청년정책 통합 목록",
+      "requires": "YOUTH_POLICY_API_KEY",
+      "notes": "공식 안내상 회원가입 후 인증키 발급이 필요하다. 자동 업데이트의 1차 원천."
+    },
+    {
+      "id": "seoul-youth-portal",
+      "name": "청년몽땅정보통",
+      "url": "https://youth.seoul.go.kr/",
+      "kind": "portal",
+      "coverage": "서울시 청년정책·통합신청",
+      "requires": "manual-review",
+      "notes": "서울 정책은 온통청년 API와 교차 확인하고, 신청 링크·마감일은 포털 원문 우선."
+    },
+    {
+      "id": "gyeonggi-youth-portal",
+      "name": "경기청년포털",
+      "url": "https://youth.gg.go.kr/",
+      "kind": "portal",
+      "coverage": "경기도 및 31개 시군 청년정책",
+      "requires": "manual-review",
+      "notes": "경기도·기초지자체 정책의 폭을 넓히는 보조 원천."
+    },
+    {
+      "id": "cuk-notice",
+      "name": "가톨릭대 교내 장학 공지",
+      "url": "https://www.catholic.ac.kr/ko/campuslife/notice.do",
+      "kind": "portal",
+      "coverage": "가톨릭대 교내·외부 장학 공지",
+      "requires": "manual-review",
+      "notes": "앱 사용자 맥락상 교내 장학은 별도 수동 검토가 필요하다."
+    }
+  ]
+}

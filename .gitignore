@@ -1,4 +1,5 @@
 __pycache__/
 .DS_Store
+.visual-check/
 *.zip
 wrangler.jsonc
