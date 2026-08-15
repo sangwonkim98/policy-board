@@ -13,35 +13,35 @@
 <style>
   :root{
     --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EDF1F6;
-    --ink:#101720; --ink-2:#4A5768; --ink-3:#7C8899;
+    --ink:#101720; --ink-2:#415061; --ink-3:#5C6A7A;
     --line:#DDE4EC; --line-2:#C9D4E0;
     --accent:#1B4FD9; --accent-ink:#FFFFFF; --accent-soft:#E8EEFC;
-    --ok:#0B7A55; --ok-soft:#E1F3EC;
+    --ok:#0B7A55; --ok-soft:#E1F3EC; --on-ok:#FFFFFF;
     --warn:#B8430E; --warn-soft:#FBE9E0;
-    --idle:#7C8899; --idle-soft:#EDF1F5;
+    --idle:#5C6A7A; --idle-soft:#EDF1F5;
     --shadow:0 1px 2px rgba(16,23,32,.05), 0 8px 24px -12px rgba(16,23,32,.18);
     --r:10px;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --bg:#0C1017; --surface:#141B25; --surface-2:#1D2632;
-      --ink:#E8EDF4; --ink-2:#A3B0C0; --ink-3:#6F7E90;
+      --ink:#E8EDF4; --ink-2:#A3B0C0; --ink-3:#8695A8;
       --line:#263140; --line-2:#33404F;
       --accent:#6A9BFF; --accent-ink:#0C1017; --accent-soft:#16233D;
-      --ok:#3FCB96; --ok-soft:#0F2A22;
+      --ok:#3FCB96; --ok-soft:#0F2A22; --on-ok:#0C1017;
       --warn:#FF8B52; --warn-soft:#2E1A12;
-      --idle:#6F7E90; --idle-soft:#1A222E;
+      --idle:#8695A8; --idle-soft:#1A222E;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
     }
   }
   :root[data-theme="dark"]{
     --bg:#0C1017; --surface:#141B25; --surface-2:#1D2632;
-    --ink:#E8EDF4; --ink-2:#A3B0C0; --ink-3:#6F7E90;
+    --ink:#E8EDF4; --ink-2:#A3B0C0; --ink-3:#8695A8;
     --line:#263140; --line-2:#33404F;
     --accent:#6A9BFF; --accent-ink:#0C1017; --accent-soft:#16233D;
-    --ok:#3FCB96; --ok-soft:#0F2A22;
+    --ok:#3FCB96; --ok-soft:#0F2A22; --on-ok:#0C1017;
     --warn:#FF8B52; --warn-soft:#2E1A12;
-    --idle:#6F7E90; --idle-soft:#1A222E;
+    --idle:#8695A8; --idle-soft:#1A222E;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
   }
 
@@ -70,12 +70,13 @@
     padding:4px 10px; border-radius:20px;
   }
   .theme-btn:hover{border-color:var(--accent); color:var(--accent)}
+  .theme-btn{min-height:44px; display:inline-flex; align-items:center}
 
   nav{display:flex; gap:2px; overflow-x:auto}
   nav button{
     appearance:none; border:0; background:none; cursor:pointer; font:inherit;
     font-size:14px; font-weight:600; color:var(--ink-3); white-space:nowrap;
-    padding:9px 14px; border-radius:8px 8px 0 0;
+    padding:11px 14px; border-radius:8px 8px 0 0; min-height:44px;
     border-bottom:2px solid transparent; margin-bottom:-1px;
   }
   nav button:hover{color:var(--ink-2); background:var(--surface-2)}
@@ -83,7 +84,7 @@
   nav button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
   nav .badge{
     display:inline-block; margin-left:6px; font-size:11px; font-weight:800;
-    background:var(--ok); color:#fff; border-radius:20px; padding:1px 7px;
+    background:var(--ok); color:var(--on-ok); border-radius:20px; padding:1px 7px;
     vertical-align:1px; font-variant-numeric:tabular-nums;
   }
 
@@ -144,7 +145,13 @@
   .c-dates{font-size:12px; color:var(--ink-3); font-variant-numeric:tabular-nums}
   .c-foot{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:auto;
     padding-top:8px; border-top:1px solid var(--line); font-size:12px}
-  .c-foot a{color:var(--accent); font-weight:600; text-decoration:none}
+  .c-foot a{
+    color:var(--accent); font-weight:600; text-decoration:none;
+    /* 링크 높이가 19px 라 폰에서 누르기 어려웠다. 패딩으로 탭 영역을 44px 로 키우고
+       같은 크기의 음수 마진으로 시각적 위치는 그대로 유지한다. */
+    display:inline-flex; align-items:center; min-height:44px;
+    padding-inline:8px; margin-block:-12px; margin-inline:-8px;
+  }
   .c-foot a:hover{text-decoration:underline}
   .c-checked{color:var(--ink-3); margin-left:auto; font-variant-numeric:tabular-nums}
   .verify{font-size:11px; font-weight:700; color:var(--warn); background:var(--warn-soft);
@@ -222,7 +229,8 @@
     font-size:12px; line-height:1.65; color:var(--ink-2); white-space:pre}
   .btnrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:11px}
   .btn{appearance:none; cursor:pointer; font:inherit; font-size:13px; font-weight:700;
-    padding:9px 16px; border-radius:8px; border:1px solid var(--line-2);
+    padding:11px 16px; border-radius:8px; border:1px solid var(--line-2);
+    min-height:44px;
     background:var(--surface); color:var(--ink); text-decoration:none;
     display:inline-flex; align-items:center; gap:6px}
   .btn:hover{border-color:var(--accent); color:var(--accent)}
