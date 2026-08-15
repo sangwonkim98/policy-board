@@ -1,0 +1,1219 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="서울·경기 학생·직장인이 지금 신청 가능한 청년정책을 근거와 함께 판정받는 도구">
+<title>이거 나 되나 — 수도권 청년정책 판정기</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --surface:#FFFFFF; --surface-2:#EDF1F6;
+    --ink:#101720; --ink-2:#4A5768; --ink-3:#7C8899;
+    --line:#DDE4EC; --line-2:#C9D4E0;
+    --accent:#1B4FD9; --accent-ink:#FFFFFF; --accent-soft:#E8EEFC;
+    --ok:#0B7A55; --ok-soft:#E1F3EC;
+    --warn:#B8430E; --warn-soft:#FBE9E0;
+    --idle:#7C8899; --idle-soft:#EDF1F5;
+    --shadow:0 1px 2px rgba(16,23,32,.05), 0 8px 24px -12px rgba(16,23,32,.18);
+    --r:10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0C1017; --surface:#141B25; --surface-2:#1D2632;
+      --ink:#E8EDF4; --ink-2:#A3B0C0; --ink-3:#6F7E90;
+      --line:#263140; --line-2:#33404F;
+      --accent:#6A9BFF; --accent-ink:#0C1017; --accent-soft:#16233D;
+      --ok:#3FCB96; --ok-soft:#0F2A22;
+      --warn:#FF8B52; --warn-soft:#2E1A12;
+      --idle:#6F7E90; --idle-soft:#1A222E;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0C1017; --surface:#141B25; --surface-2:#1D2632;
+    --ink:#E8EDF4; --ink-2:#A3B0C0; --ink-3:#6F7E90;
+    --line:#263140; --line-2:#33404F;
+    --accent:#6A9BFF; --accent-ink:#0C1017; --accent-soft:#16233D;
+    --ok:#3FCB96; --ok-soft:#0F2A22;
+    --warn:#FF8B52; --warn-soft:#2E1A12;
+    --idle:#6F7E90; --idle-soft:#1A222E;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px; margin:0 auto; padding:0 20px}
+
+  header{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+  }
+  .head-in{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; padding:15px 0 11px}
+  h1{margin:0; font-size:22px; font-weight:800; letter-spacing:-.045em; line-height:1.15}
+  h1 .dim{color:var(--ink-3); font-weight:600}
+  .tagline{font-size:12.5px; color:var(--ink-2); margin:2px 0 0}
+  .head-meta{margin-left:auto; display:flex; gap:14px; align-items:center; font-size:12px; color:var(--ink-3)}
+  .head-meta b{color:var(--ink); font-weight:700; font-variant-numeric:tabular-nums}
+  .theme-btn{
+    appearance:none; border:1px solid var(--line-2); background:var(--surface);
+    color:var(--ink-2); cursor:pointer; font:inherit; font-size:12px; font-weight:600;
+    padding:4px 10px; border-radius:20px;
+  }
+  .theme-btn:hover{border-color:var(--accent); color:var(--accent)}
+
+  nav{display:flex; gap:2px; overflow-x:auto}
+  nav button{
+    appearance:none; border:0; background:none; cursor:pointer; font:inherit;
+    font-size:14px; font-weight:600; color:var(--ink-3); white-space:nowrap;
+    padding:9px 14px; border-radius:8px 8px 0 0;
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+  }
+  nav button:hover{color:var(--ink-2); background:var(--surface-2)}
+  nav button[aria-selected="true"]{color:var(--accent); border-bottom-color:var(--accent)}
+  nav button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+  nav .badge{
+    display:inline-block; margin-left:6px; font-size:11px; font-weight:800;
+    background:var(--ok); color:#fff; border-radius:20px; padding:1px 7px;
+    vertical-align:1px; font-variant-numeric:tabular-nums;
+  }
+
+  main{padding:20px 0 64px}
+  [role="tabpanel"][hidden]{display:none}
+
+  /* ---- trust ---- */
+  .trust{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+    padding:13px 16px; margin-bottom:16px; box-shadow:var(--shadow)}
+  .trust-row{display:flex; flex-wrap:wrap; gap:8px 22px; align-items:baseline}
+  .trust-stat{display:flex; align-items:baseline; gap:6px; font-size:13px; color:var(--ink-2)}
+  .trust-stat b{font-size:19px; font-weight:800; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.02em}
+  .trust-note{margin:9px 0 0; padding-top:9px; border-top:1px dashed var(--line);
+    font-size:12px; color:var(--ink-3); line-height:1.55}
+  .trust-note strong{color:var(--warn); font-weight:700}
+
+  /* ---- filters ---- */
+  .filters{display:flex; flex-direction:column; gap:8px; margin-bottom:16px}
+  .frow{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+  .flabel{font-size:11px; font-weight:700; color:var(--ink-3); letter-spacing:.08em; min-width:34px}
+  .chip{appearance:none; cursor:pointer; font:inherit; font-size:13px; font-weight:600;
+    padding:5px 12px; border-radius:20px; border:1px solid var(--line-2);
+    background:var(--surface); color:var(--ink-2)}
+  .chip:hover{border-color:var(--accent); color:var(--accent)}
+  .chip[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+  .chip:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* ---- cards ---- */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:12px}
+  .card{position:relative; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--r); padding:14px 16px 12px 19px; overflow:hidden;
+    display:flex; flex-direction:column; gap:8px}
+  .card::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--idle)}
+  .card.s-urgent::before{background:var(--warn)}
+  .card.s-open::before{background:var(--ok)}
+  .card.s-always::before{background:var(--accent)}
+  .card.s-closed{opacity:.6}
+  .card.v-fail{opacity:.5}
+
+  .c-top{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .pill{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px;
+    white-space:nowrap; background:var(--idle-soft); color:var(--idle)}
+  .s-urgent .pill{background:var(--warn-soft); color:var(--warn)}
+  .s-open .pill{background:var(--ok-soft); color:var(--ok)}
+  .s-always .pill{background:var(--accent-soft); color:var(--accent)}
+  .tag{font-size:11px; color:var(--ink-3); background:var(--surface-2);
+    padding:2px 7px; border-radius:5px; font-weight:600}
+  .dday{margin-left:auto; font-size:18px; font-weight:800; letter-spacing:-.04em;
+    font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+  .s-urgent .dday{color:var(--warn)}
+  .s-open .dday{color:var(--ink)}
+
+  .c-name{font-size:16px; font-weight:750; letter-spacing:-.025em; line-height:1.35; text-wrap:balance}
+  .c-org{font-size:12px; color:var(--ink-3); margin-top:-4px}
+  .c-amount{font-size:14px; font-weight:700; color:var(--ink); background:var(--surface-2);
+    border-radius:7px; padding:7px 10px; letter-spacing:-.01em}
+  .c-elig{font-size:13px; color:var(--ink-2); line-height:1.5}
+  .c-dates{font-size:12px; color:var(--ink-3); font-variant-numeric:tabular-nums}
+  .c-foot{display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:auto;
+    padding-top:8px; border-top:1px solid var(--line); font-size:12px}
+  .c-foot a{color:var(--accent); font-weight:600; text-decoration:none}
+  .c-foot a:hover{text-decoration:underline}
+  .c-checked{color:var(--ink-3); margin-left:auto; font-variant-numeric:tabular-nums}
+  .verify{font-size:11px; font-weight:700; color:var(--warn); background:var(--warn-soft);
+    padding:2px 7px; border-radius:5px}
+
+  /* ---- verdict ---- */
+  .vbadge{font-size:11.5px; font-weight:800; padding:3px 9px; border-radius:6px; white-space:nowrap}
+  .vbadge.pass{background:var(--ok-soft); color:var(--ok)}
+  .vbadge.maybe{background:var(--warn-soft); color:var(--warn)}
+  .vbadge.fail{background:var(--idle-soft); color:var(--idle)}
+  .vbadge.wait{background:var(--accent-soft); color:var(--accent)}
+
+  .why{border-radius:7px; padding:8px 11px; font-size:12.5px; line-height:1.55;
+    display:flex; flex-direction:column; gap:3px}
+  .why.pass{background:var(--ok-soft); color:var(--ok)}
+  .why.maybe{background:var(--warn-soft); color:var(--warn)}
+  .why.fail{background:var(--idle-soft); color:var(--ink-2)}
+  .why.wait{background:var(--accent-soft); color:var(--accent)}
+  .why b{font-weight:800}
+  .todo{display:flex; flex-direction:column; gap:2px; font-size:12.5px;
+    color:var(--ink-2); line-height:1.5; padding:2px 2px 0}
+  .todo-k{font-size:10.5px; font-weight:800; letter-spacing:.09em; color:var(--ink-3)}
+
+  /* ---- verdict page ---- */
+  .hero{background:var(--surface); border:1px solid var(--ok); border-left:5px solid var(--ok);
+    border-radius:var(--r); padding:18px 20px; margin-bottom:18px; box-shadow:var(--shadow)}
+  .hero-k{font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--ok)}
+  .hero-n{font-size:23px; font-weight:800; letter-spacing:-.035em; line-height:1.25;
+    margin:5px 0 2px; text-wrap:balance}
+  .hero-meta{display:flex; gap:14px; flex-wrap:wrap; font-size:13px; color:var(--ink-2);
+    margin:9px 0 11px; font-variant-numeric:tabular-nums}
+  .hero-meta b{color:var(--ink); font-weight:750}
+  .hero-act{font-size:13.5px; color:var(--ink); background:var(--surface-2);
+    border-radius:8px; padding:10px 13px; line-height:1.55}
+
+  .vsec{margin-bottom:22px}
+  .vsec-h{display:flex; align-items:center; gap:9px; margin-bottom:11px}
+  .vsec-t{font-size:16px; font-weight:800; letter-spacing:-.02em}
+  .vsec-c{font-size:12px; font-weight:800; padding:2px 9px; border-radius:20px;
+    font-variant-numeric:tabular-nums; background:var(--surface-2); color:var(--ink-2)}
+  details.vsec > summary{cursor:pointer; list-style:none; display:flex;
+    align-items:center; gap:9px; margin-bottom:11px}
+  details.vsec > summary::-webkit-details-marker{display:none}
+  details.vsec > summary::after{content:"▾"; color:var(--ink-3); font-size:12px}
+  details.vsec[open] > summary::after{content:"▴"}
+
+  /* ---- steps / forms ---- */
+  .step{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+    padding:17px 20px; margin-bottom:13px; box-shadow:var(--shadow)}
+  .step-h{display:flex; align-items:center; gap:10px; margin-bottom:5px}
+  .step-n{width:23px; height:23px; flex:none; border-radius:50%; background:var(--accent);
+    color:var(--accent-ink); font-size:12.5px; font-weight:800; display:grid;
+    place-items:center; font-variant-numeric:tabular-nums}
+  .step-t{font-size:16px; font-weight:750; letter-spacing:-.02em}
+  .step-d{font-size:13px; color:var(--ink-2); margin:0 0 12px 33px}
+  .step-body{margin-left:33px}
+  @media (max-width:600px){ .step-d,.step-body{margin-left:0} }
+
+  .form{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px 14px}
+  .field{display:flex; flex-direction:column; gap:4px}
+  .field.wide{grid-column:1/-1}
+  .field label{font-size:11.5px; font-weight:700; color:var(--ink-3); letter-spacing:.04em}
+  .field input,.field select,.field textarea{
+    width:100%; font:inherit; font-size:14px; padding:8px 10px; border-radius:7px;
+    border:1px solid var(--line-2); background:var(--surface); color:var(--ink);
+  }
+  .field textarea{min-height:66px; resize:vertical; line-height:1.55}
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:2px solid var(--accent); outline-offset:-1px; border-color:var(--accent)}
+  .hint{font-size:11.5px; color:var(--ink-3); line-height:1.45}
+
+  pre.prompt{margin:0; background:var(--surface-2); border:1px solid var(--line);
+    border-radius:8px; padding:13px; overflow:auto; max-height:300px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12px; line-height:1.65; color:var(--ink-2); white-space:pre}
+  .btnrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:11px}
+  .btn{appearance:none; cursor:pointer; font:inherit; font-size:13px; font-weight:700;
+    padding:9px 16px; border-radius:8px; border:1px solid var(--line-2);
+    background:var(--surface); color:var(--ink); text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px}
+  .btn:hover{border-color:var(--accent); color:var(--accent)}
+  .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:var(--accent-ink)}
+  .btn.primary:hover{opacity:.88; color:var(--accent-ink)}
+  .btn.ghost{background:none}
+
+  textarea.paste{width:100%; min-height:120px; resize:vertical; background:var(--surface-2);
+    border:1px solid var(--line); border-radius:8px; padding:12px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px; line-height:1.6; color:var(--ink)}
+  textarea.paste:focus{outline:2px solid var(--accent); outline-offset:-1px; border-color:var(--accent)}
+
+  .msg{margin-top:10px; font-size:13px; font-weight:600; padding:9px 12px; border-radius:7px}
+  .msg.ok{background:var(--ok-soft); color:var(--ok)}
+  .msg.err{background:var(--warn-soft); color:var(--warn)}
+  .empty{padding:40px 20px; text-align:center; color:var(--ink-3); font-size:14px}
+  .result{background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+    padding:17px 20px; margin-top:13px; white-space:pre-wrap; font-size:14px;
+    line-height:1.75; color:var(--ink)}
+
+  footer{border-top:1px solid var(--line); margin-top:34px; padding:19px 0 40px;
+    font-size:12px; color:var(--ink-3); line-height:1.7}
+
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="head-in">
+      <div>
+        <h1>이거 나 되나 <span class="dim">/ 수도권 청년정책</span></h1>
+        <p class="tagline">프로필만 넣으면 <b>된다 / 안 된다 / 뭘 확인해야 하는지</b>를 근거와 함께 판정합니다</p>
+      </div>
+      <div class="head-meta">
+        <span>수집 <b id="m-count">0</b>건</span>
+        <span>갱신 <b>2026-08-15</b></span>
+        <button class="theme-btn" id="themeBtn" type="button">테마</button>
+      </div>
+    </div>
+    <nav role="tablist">
+      <button role="tab" aria-selected="true" aria-controls="p-verdict" id="t-verdict">내 판정<span class="badge" id="vbadge" hidden>0</span></button>
+      <button role="tab" aria-selected="false" aria-controls="p-pool" id="t-pool">정책 전체</button>
+      <button role="tab" aria-selected="false" aria-controls="p-me" id="t-me">프로필</button>
+      <button role="tab" aria-selected="false" aria-controls="p-deep" id="t-deep">LLM 심화</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ 판정 ============ -->
+  <section role="tabpanel" id="p-verdict" aria-labelledby="t-verdict">
+    <div id="vNoProfile" class="step">
+      <div class="step-h"><span class="step-t">먼저 프로필을 넣어주세요</span></div>
+      <p class="step-d">30초면 됩니다. 출생연도·거주지·신분만 있어도 대부분 판정됩니다. 입력한 내용은 <b>이 브라우저에만</b> 저장되고 어디로도 전송되지 않습니다.</p>
+      <div class="step-body"><button class="btn primary" id="goProfile" type="button">프로필 입력하기</button></div>
+    </div>
+    <div id="vOut" hidden></div>
+  </section>
+
+  <!-- ============ 전체 ============ -->
+  <section role="tabpanel" id="p-pool" aria-labelledby="t-pool" hidden>
+    <div class="trust">
+      <div class="trust-row">
+        <span class="trust-stat"><b id="s-open">0</b> 지금 신청 가능</span>
+        <span class="trust-stat"><b id="s-urgent">0</b> 마감 임박 (D-14)</span>
+        <span class="trust-stat"><b id="s-always">0</b> 상시</span>
+        <span class="trust-stat"><b id="s-closed">0</b> 마감·대기</span>
+      </div>
+      <p class="trust-note">
+        <strong>수집 범위</strong> — 중앙부처(한국장학재단·국토부·고용노동부) + 서울시·경기도 광역 + 안산시 + <b>가톨릭대 교내 장학 공지</b>. 2026-08-15 조사 기준.<br>
+        <strong>완전하지 않습니다.</strong> 기초지자체 66곳은 아직 안 들어왔고, <b>교내 장학은 가톨릭대 기준</b>입니다 — 다른 학교면 각자 학교 공지를 봐야 합니다. 마감·금액·자격은 바뀔 수 있으니 <b>신청 전 반드시 원문 공고를 확인</b>하세요.
+      </p>
+    </div>
+    <div class="filters">
+      <div class="frow" data-group="status">
+        <span class="flabel">상태</span>
+        <button class="chip" aria-pressed="true" data-v="all">전체</button>
+        <button class="chip" aria-pressed="false" data-v="live">지금 가능</button>
+        <button class="chip" aria-pressed="false" data-v="always">상시</button>
+        <button class="chip" aria-pressed="false" data-v="closed">마감·대기</button>
+      </div>
+      <div class="frow" data-group="target">
+        <span class="flabel">대상</span>
+        <button class="chip" aria-pressed="true" data-v="all">전체</button>
+        <button class="chip" aria-pressed="false" data-v="학생">학생</button>
+        <button class="chip" aria-pressed="false" data-v="직장인">직장인</button>
+        <button class="chip" aria-pressed="false" data-v="구직">구직중</button>
+      </div>
+      <div class="frow" data-group="region">
+        <span class="flabel">지역</span>
+        <button class="chip" aria-pressed="true" data-v="all">전체</button>
+        <button class="chip" aria-pressed="false" data-v="교내">교내</button>
+        <button class="chip" aria-pressed="false" data-v="전국">전국</button>
+        <button class="chip" aria-pressed="false" data-v="서울">서울</button>
+        <button class="chip" aria-pressed="false" data-v="경기">경기</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>조건에 맞는 정책이 없습니다. 필터를 넓혀보세요.</div>
+  </section>
+
+  <!-- ============ 프로필 ============ -->
+  <section role="tabpanel" id="p-me" aria-labelledby="t-me" hidden>
+    <div class="step">
+      <div class="step-h"><span class="step-n">1</span><span class="step-t">직접 입력 <span style="font-size:12px;font-weight:600;color:var(--ink-3)">— 30초</span></span></div>
+      <p class="step-d">모르는 건 비워두세요. 비워두면 <b>탈락시키지 않고</b> "확인 필요"로 분류합니다.</p>
+      <div class="step-body">
+        <div class="form">
+          <div class="field">
+            <label for="f-birth">출생연도</label>
+            <input type="number" id="f-birth" min="1970" max="2015" placeholder="2003" inputmode="numeric">
+            <span class="hint">연령 컷 판정에 가장 중요</span>
+          </div>
+          <div class="field">
+            <label for="f-region">거주지</label>
+            <input type="text" id="f-region" placeholder="경기 안산시" list="regions">
+            <datalist id="regions">
+              <option value="서울 관악구"></option><option value="서울 강남구"></option>
+              <option value="경기 안산시"></option><option value="경기 수원시"></option>
+              <option value="경기 부천시"></option><option value="인천 남동구"></option>
+            </datalist>
+            <span class="hint">시·군·구까지</span>
+          </div>
+          <div class="field">
+            <label for="f-status">신분</label>
+            <select id="f-status">
+              <option value="">— 선택 —</option>
+              <option>대학생</option><option>대학원생</option><option>직장인</option>
+              <option>구직중</option><option>프리랜서</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-school">학교 / 소속</label>
+            <input type="text" id="f-school" placeholder="가톨릭대 인공지능학과 3학년">
+            <span class="hint">교내 장학 판정에 사용</span>
+          </div>
+          <div class="field">
+            <label for="f-emp">취업 상태</label>
+            <select id="f-emp">
+              <option value="">— 선택 —</option>
+              <option>미취업</option><option>재직</option><option>아르바이트</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-income">학자금 지원구간</label>
+            <select id="f-income">
+              <option value="">모름 (권장)</option>
+              <option value="0">0구간(기초·차상위)</option>
+              <option value="1">1구간</option><option value="2">2구간</option>
+              <option value="3">3구간</option><option value="4">4구간</option>
+              <option value="5">5구간</option><option value="6">6구간</option>
+              <option value="7">7구간</option><option value="8">8구간</option>
+              <option value="9">9구간</option><option value="10">10구간(미신청 포함)</option>
+            </select>
+            <span class="hint">모르면 비워두세요</span>
+          </div>
+          <div class="field">
+            <label for="f-housing">주거</label>
+            <select id="f-housing">
+              <option value="">— 선택 —</option>
+              <option>본가</option><option>자취(월세)</option>
+              <option>자취(전세)</option><option>기숙사</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-mil">병역</label>
+            <select id="f-mil">
+              <option value="">— 선택 —</option>
+              <option>군필</option><option>미필</option><option>해당없음</option>
+            </select>
+            <span class="hint">복무기간만큼 연령 상한 연장</span>
+          </div>
+          <div class="field wide">
+            <label for="f-notes">특이사항 (선택)</label>
+            <textarea id="f-notes" placeholder="인턴·연구·수상·자격증·봉사 등. LLM 심화 판정에서 활용됩니다."></textarea>
+          </div>
+        </div>
+        <div class="btnrow">
+          <button class="btn primary" id="saveForm" type="button">저장하고 판정 보기</button>
+          <button class="btn ghost" id="clearProfile" type="button">프로필 삭제</button>
+        </div>
+        <div id="formMsg"></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-h"><span class="step-n">2</span><span class="step-t">또는 — 쓰던 LLM에서 뽑아오기</span></div>
+      <p class="step-d">평소 쓰는 ChatGPT·Claude는 이미 당신을 압니다. 폼보다 정확하고, 특이사항까지 알아서 채워줍니다.</p>
+      <div class="step-body">
+        <pre class="prompt" id="profilePrompt"></pre>
+        <div class="btnrow">
+          <button class="btn primary" id="copyProfile" type="button">프롬프트 복사</button>
+          <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Claude 열기</a>
+          <a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열기</a>
+        </div>
+        <textarea class="paste" id="profileIn" style="margin-top:11px" placeholder="받은 JSON을 코드블록째 붙여넣으세요"></textarea>
+        <div class="btnrow"><button class="btn primary" id="saveJson" type="button">JSON 적용</button></div>
+        <div id="profileMsg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LLM 심화 ============ -->
+  <section role="tabpanel" id="p-deep" aria-labelledby="t-deep" hidden>
+    <div id="deepNo" class="step">
+      <div class="step-h"><span class="step-t">프로필이 필요합니다</span></div>
+      <p class="step-d">규칙 판정이 먼저 돌아야 심화 프롬프트를 조립할 수 있습니다.</p>
+      <div class="step-body"><button class="btn primary" id="goProfile2" type="button">프로필 입력하기</button></div>
+    </div>
+    <div id="deepYes" hidden>
+      <div class="step">
+        <div class="step-h"><span class="step-n">1</span><span class="step-t">규칙이 못 잡는 것을 LLM에게</span></div>
+        <p class="step-d">이 페이지의 규칙 엔진은 연령·지역·신분처럼 <b>기계로 확인 가능한 것</b>만 판정합니다. 성적·입상 실적·활동 적합도 같은 건 판단 못 합니다. 아래 프롬프트는 <b>⚠️ 확인 필요로 남은 것들</b>과 당신의 특이사항을 함께 넘겨 그 빈칸을 메웁니다.</p>
+        <div class="step-body">
+          <pre class="prompt" id="deepPrompt"></pre>
+          <div class="btnrow">
+            <button class="btn primary" id="copyDeep" type="button">프롬프트 복사</button>
+            <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Claude 열기</a>
+            <a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT 열기</a>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="step-n">2</span><span class="step-t">답변 보관 (선택)</span></div>
+        <p class="step-d">붙여넣으면 이 브라우저에 남아 다음에 열 때도 보입니다.</p>
+        <div class="step-body">
+          <textarea class="paste" id="deepIn" placeholder="LLM 답변을 붙여넣으세요"></textarea>
+          <div class="btnrow">
+            <button class="btn primary" id="saveDeep" type="button">저장</button>
+            <button class="btn ghost" id="clearDeep" type="button">지우기</button>
+          </div>
+          <div class="result" id="deepResult" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>이거 나 되나</b> — 공공 청년정책을 요약·정리한 <b>비공식</b> 도구입니다. 정부·지자체와 무관하며 정보의 정확성을 보장하지 않습니다. 판정은 참고용이며, <b>신청 전 반드시 원문 공고를 확인</b>하세요.<br>
+    프로필은 이 브라우저(localStorage)에만 저장되며 서버로 전송되지 않습니다. · 데이터 조사 기준일 2026-08-15
+  </footer>
+</main>
+
+<script>
+"use strict";
+
+/* ============================================================
+   정책 데이터 + 판정 규칙 — 2026-08-15 웹 조사 기준
+   rules 필드가 규칙 엔진 입력. 기계로 확인 불가한 건 need[]로.
+   ============================================================ */
+const POLICIES = [
+  { id:"cuk-leewongil", name:"이원길 장학금 (2026-2학기)", org:"가톨릭대 학부대학운영팀",
+    region:"교내", target:["학생"], cat:"장학", open:"2026-07-13", close:"2026-09-20",
+    amount:"학술·봉사·설계 1인당 200만원 · 창업 차등 (총 5천만원)",
+    elig:"본교 학부·대학원 재학생. 초과학기 가능, 휴학·수료·수료유예 불가. 시상식(10/22) 참석 가능자",
+    url:"https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274579&srCategoryId=22",
+    checked:"2026-08-15", confidence:"confirmed",
+    note:"학술 부문 = 논문 20p 이내 제출. 트리니티 신청은 8/31~9/20 별도",
+    rules:{ school:"가톨릭", status:["대학생","대학원생"],
+            todo:["학술 부문이면 논문 20p 이내 원고 준비","트리니티 신청은 8/31~9/20 별도 진행","10/22 시상식 참석 일정 확보"] } },
+
+  { id:"cuk-sontaehee", name:"손태희장학재단 장학생", org:"가톨릭대 학생지원팀",
+    region:"교내", target:["학생"], cat:"장학", open:"2026-08-14", close:null,
+    amount:"금액 확인 필요", elig:"교내 공지 경유 외부 장학재단 사업. 세부 자격은 원문 확인",
+    url:"https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274779&srCategoryId=22",
+    checked:"2026-08-15", confidence:"verify", note:"8/14 공지 — 마감일·자격·금액 미확인",
+    rules:{ school:"가톨릭", status:["대학생","대학원생"], unsure:["공고 원문에서 자격·마감·금액 확인 필요 (현재 미확인)"] } },
+
+  { id:"sejong-ido", name:"세종이도인재장학금 (특기적성)", org:"세종특별자치시",
+    region:"전국", target:["학생"], cat:"장학", open:"2026-08-10", close:"2026-09-30",
+    amount:"대학생 1인당 150만원",
+    elig:"① 특기 분야 1년 이내 전국규모 대회 3위 이내 입상 + ② 세종시 소재 학교 재학 또는 1년 이상 세종시 거주",
+    url:"https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274685&srCategoryId=22",
+    checked:"2026-08-15", confidence:"confirmed", note:"이메일 접수 jh@sri.re.kr",
+    rules:{ region:["세종"], status:["대학생","대학원생"],
+            regionFailMsg:"세종시 거주 또는 세종시 소재 학교 재학이어야 합니다",
+            unsure:["1년 이내 전국규모 대회 3위 이내 입상 실적 보유 여부"] } },
+
+  { id:"housing-scholar-2", name:"주거안정장학금 2026-2학기 2차", org:"한국장학재단",
+    region:"전국", target:["학생"], cat:"주거", open:"2026-08-12", close:null,
+    amount:"금액 확인 필요", elig:"원거리 진학으로 타지역 거주 중인 학부생 대상 주거비 지원",
+    url:"https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274649&srCategoryId=22",
+    checked:"2026-08-15", confidence:"verify", note:"마감일 미확인 — 국가장학금 2차와 동일 일정 추정",
+    rules:{ status:["대학생"], housing:["자취(월세)","자취(전세)","기숙사"],
+            housingFailMsg:"본가 거주자는 주거비 지원 대상이 아닙니다",
+            unsure:["원거리 진학 요건(주소지-학교 거리) 충족 여부"] } },
+
+  { id:"seoul-loan-interest", name:"서울시 학자금대출이자 지원 2차", org:"서울특별시",
+    region:"서울", target:["학생"], cat:"장학", open:"2026-08-03", close:"2026-09-15",
+    amount:"학자금대출 이자 지원", elig:"서울 거주 대학생 중 학자금대출 이자 납부자",
+    url:"https://www.catholic.ac.kr/ko/campuslife/notice.do?mode=view&articleNo=274509&srCategoryId=22",
+    checked:"2026-08-15", confidence:"confirmed", note:"학자금대출이 없으면 해당 없음",
+    rules:{ region:["서울"], status:["대학생","대학원생"], unsure:["학자금대출 보유 및 이자 납부 실적 여부"] } },
+
+  { id:"ai-edu-scholar", name:"대학생 청소년 AI 교육지원장학생", org:"한국장학재단",
+    region:"전국", target:["학생"], cat:"장학", open:"2026-08-05", close:"2026-08-16",
+    amount:"활동 시급 18,000원 · 10명 내외 선발",
+    elig:"2026-2학기 학부 재학생, 직전학기 70/100 이상, AI·SW 역량. 초·중·고 AI 학습지원(9~12월)",
+    url:"https://www.kosaf.go.kr", checked:"2026-08-08", confidence:"verify",
+    note:"활동계획서 + 학업시간표 + 희망기관 2곳 제출",
+    rules:{ status:["대학생"], unsure:["직전학기 성적 70/100 이상 여부"], todo:["AI 멘토링 활동계획서 작성","학업시간표 + 희망기관 2곳 선정"] } },
+
+  { id:"work-scholar-2", name:"국가근로장학금 2026-2학기 2차", org:"한국장학재단",
+    region:"전국", target:["학생"], cat:"장학", open:"2026-08-12", close:"2026-09-09",
+    amount:"교내·외 근로 시급 지급",
+    elig:"2026-2학기 학부 재·신·편입생. 직전학기 성적 70점 이상, 학자금 지원구간 9구간 이하",
+    url:"https://www.kosaf.go.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"동계방학 집중근로 희망자도 이 기간에 신청",
+    rules:{ status:["대학생"], incomeMax:9, unsure:["직전학기 성적 70점 이상 여부"], todo:["희망근로지 선택"] } },
+
+  { id:"natl-scholar-2", name:"국가장학금 2026-2학기 2차", org:"한국장학재단",
+    region:"전국", target:["학생"], cat:"장학", open:"2026-08-12", close:null,
+    amount:"학자금 지원구간별 차등 지급",
+    elig:"국내 대학 재학생. 소득구간·성적 기준 충족 시. 재학 중 2회 한정 구제 가능",
+    url:"https://www.kosaf.go.kr", checked:"2026-08-15", confidence:"verify",
+    note:"2차 마감일 미확인 — 통상 9월 중순",
+    rules:{ status:["대학생"], incomeMax:8, unsure:["직전학기 성적 기준(통상 B학점) 충족 여부"] } },
+
+  { id:"ansan-jeonse", name:"안산시 청년 전·월세보증금 대출이자 지원", org:"안산시",
+    region:"경기", target:["학생","직장인","구직"], cat:"주거",
+    open:"2026-08-01", close:"2026-08-31", amount:"대출이자 실비 지원",
+    elig:"안산시 거주 19~39세 무주택 청년. 2025-01-01~2026-06-30 대출이자 납부 실적 필요",
+    url:"https://www.ansan.go.kr", checked:"2026-08-08", confidence:"verify",
+    note:"전세·월세 대출이 없으면 해당 없음",
+    rules:{ region:["안산"], regionFailMsg:"안산시 거주자만 해당됩니다",
+            age:{min:19,max:39}, housing:["자취(월세)","자취(전세)"],
+            housingFailMsg:"전·월세 거주자만 해당됩니다",
+            unsure:["전·월세보증금 대출 보유 및 2025.1~2026.6 이자 납부 실적"] } },
+
+  { id:"gg-exam-fee", name:"경기청년 역량강화 기회지원 (응시료)", org:"경기도일자리재단",
+    region:"경기", target:["학생","구직"], cat:"역량", open:"2026-05-01", close:null, always:true,
+    amount:"1인 최대 30만원 · 응시료 실비",
+    elig:"어학시험 19종 + 국가기술자격 등 1,004종 응시료. 예산 소진 시 조기 마감",
+    url:"https://www.gjf.or.kr", checked:"2026-08-08", confidence:"verify",
+    note:"대상이 '경기도 내 미취업 청년' — 재학생 포함 여부 문의 필요 (031-8008-3472)",
+    rules:{ region:["경기"], age:{min:19,max:39,mil:3},
+            unsure:["대상이 미취업 청년 — 재학생 포함 여부 확인 필요 (031-8008-3472)"], todo:["응시료 납부 영수증 보관"] } },
+
+  { id:"youth-rent", name:"청년월세 특별지원 (상시 전환)", org:"국토교통부",
+    region:"전국", target:["학생","직장인","구직"], cat:"주거",
+    open:"2026-01-01", close:null, always:true,
+    amount:"월 최대 20만원 × 최대 24개월 (총 480만원)",
+    elig:"무주택 청년. 2026년부터 상시 신청 제도로 전환. 생애 1회",
+    url:"https://www.myhome.go.kr", checked:"2026-08-15", confidence:"verify",
+    note:"소득·자산 요건 있음. 지자체별 운영 차이 확인 필요",
+    rules:{ age:{min:19,max:34,mil:3}, housing:["자취(월세)"],
+            housingFailMsg:"월세 거주자만 해당됩니다",
+            unsure:["청년 가구 중위소득 60% 이하 등 소득·자산 요건"] } },
+
+  { id:"gg-interview", name:"경기도 청년 면접수당", org:"경기도미래세대재단",
+    region:"경기", target:["구직","학생"], cat:"취업", open:null, close:null, upcoming:true,
+    amount:"면접 1회 5만원 지역화폐 · 연 최대 3회 15만원",
+    elig:"주민등록상 경기도 거주 18~39세. 병역 이행자는 최대 3년 연장(최대 42세)",
+    url:"https://www.gfgf.kr", checked:"2026-08-15", confidence:"verify",
+    note:"1차 모집 6/24~7/23 종료. 2차 일정 미확인 — 상담센터 1877-2046",
+    rules:{ region:["경기"], age:{min:18,max:39,mil:3}, unsure:["취업 면접 참여 실적 보유 여부"], todo:["면접확인서 발급받아 보관"] } },
+
+  { id:"gg-welfare-pt", name:"경기도 청년 복지포인트", org:"경기도일자리재단",
+    region:"경기", target:["직장인"], cat:"복지", open:"2026-07-01", close:"2026-07-13",
+    amount:"복지포인트 지급 (금액 확인 필요)",
+    elig:"만19~39세 경기 거주 + 도내 중소·중견·소상공인·비영리법인 주 36시간 이상 재직자",
+    url:"https://www.gjf.or.kr", checked:"2026-08-15", confidence:"verify",
+    note:"2026년 모집 종료. 다음 회차 대기",
+    rules:{ region:["경기"], age:{min:19,max:39,mil:3}, employment:["재직"],
+            employmentFailMsg:"경기도 내 기업에 재직 중이어야 합니다",
+            unsure:["주 36시간 이상 근무 + 도내 중소·중견기업 재직 여부"] } },
+
+  { id:"seoul-future-job", name:"서울 미래 청년 일자리 2차", org:"서울특별시",
+    region:"서울", target:["구직"], cat:"취업", open:"2026-08-03", close:"2026-08-14",
+    amount:"참여기업 근무 · 급여 지급",
+    elig:"만19~39세 서울 거주 미취업 청년. AI·문화콘텐츠·바이오헬스케어·제로웨이스트·소셜벤처",
+    url:"https://youth.seoul.go.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"2차 모집 8/14 마감. 3차 여부 미공지",
+    rules:{ region:["서울"], age:{min:19,max:39}, employment:["미취업"],
+            employmentFailMsg:"미취업 상태여야 합니다" } },
+
+  { id:"seoul-youth-allowance", name:"서울시 청년수당", org:"서울특별시",
+    region:"서울", target:["구직"], cat:"생활", open:"2026-05-27", close:"2026-05-29",
+    amount:"월 50만원 × 최대 6개월 (총 300만원)",
+    elig:"만19~34세 서울 거주 미취업자 중 최종학력 졸업자. 2차 6,000명 내외",
+    url:"https://youth.seoul.go.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"2026년 2차 모집 종료. 다음 연도 대기",
+    rules:{ region:["서울"], age:{min:19,max:34}, employment:["미취업"],
+            status:["구직중","프리랜서"], statusFailMsg:"재학생은 대상이 아닙니다 (최종학력 졸업자만)" } },
+
+  { id:"seoul-rent", name:"서울시 청년월세지원", org:"서울주거포털",
+    region:"서울", target:["학생","직장인","구직"], cat:"주거",
+    open:"2026-05-06", close:"2026-05-19", amount:"월 최대 20만원 · 연 최대 240만원",
+    elig:"만19~39세 서울 거주 무주택 청년. 2026년 1만 5천명 규모",
+    url:"https://housing.seoul.go.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"2026년 모집 종료",
+    rules:{ region:["서울"], age:{min:19,max:39}, housing:["자취(월세)"],
+            housingFailMsg:"월세 거주자만 해당됩니다" } },
+
+  { id:"gg-basic-income", name:"경기도 청년기본소득", org:"경기도",
+    region:"경기", target:["학생","직장인","구직"], cat:"생활",
+    open:null, close:null, upcoming:true,
+    amount:"분기 25만원 지역화폐 · 연 최대 100만원",
+    elig:"만 24세 경기도 청년만 해당. 분기별 신청",
+    url:"https://apply.jobaba.net", checked:"2026-08-15", confidence:"verify",
+    note:"만 24세 단일 연령. 3분기 신청기간 미확인",
+    rules:{ region:["경기"], ageExact:24,
+            ageFailMsg:"만 24세인 해에만 신청 가능합니다",
+            unsure:["경기도 3년 이상 계속 거주 또는 합산 10년 요건"] } },
+
+  { id:"youth-future-savings", name:"청년미래적금", org:"금융위원회",
+    region:"전국", target:["직장인","학생"], cat:"자산", open:"2026-06-22", close:"2026-07-03",
+    amount:"정부 기여금 + 비과세 적금",
+    elig:"만19~34세, 개인소득 연 7,500만원 이하, 중위소득 200% 이하",
+    url:"https://www.fsc.go.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"2026년 자격조회 종료. 군복무 최대 6년 연령 차감",
+    rules:{ age:{min:19,max:34,mil:6}, employment:["재직","아르바이트"],
+            employmentFailMsg:"근로·사업소득이 있어야 합니다",
+            unsure:["가구 중위소득 200% 이하 여부"] } },
+
+  { id:"youth-savings-account", name:"청년내일저축계좌", org:"보건복지부",
+    region:"전국", target:["직장인","구직"], cat:"자산", open:"2026-05-04", close:"2026-05-20",
+    amount:"본인 저축 + 정부 매칭 지원금",
+    elig:"만15~39세, 근로·사업소득 월 10만원 이상. 2026년부터 중위소득 50% 이하 수급자·차상위로 축소",
+    url:"https://www.bokjiro.go.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"중위 50~100% 구간 신규 가입 중단됨",
+    rules:{ age:{min:15,max:39}, employment:["재직","아르바이트"],
+            employmentFailMsg:"근로·사업소득 월 10만원 이상이어야 합니다",
+            unsure:["기준 중위소득 50% 이하(수급자·차상위) 여부"] } },
+
+  { id:"youth-leap", name:"청년도약계좌", org:"서민금융진흥원",
+    region:"전국", target:["직장인"], cat:"자산", open:null, close:"2025-12-31",
+    amount:"—", elig:"신규 가입 종료. 기존 가입자의 청년미래적금 갈아타기만 가능",
+    url:"https://www.kinfa.or.kr", checked:"2026-08-15", confidence:"confirmed",
+    note:"2025년 12월 신규 가입 종료", rules:{ closedForever:true } },
+
+  { id:"gg-dorm", name:"경기도장학관 (대학생 기숙사)", org:"경기도",
+    region:"경기", target:["학생"], cat:"주거", open:null, close:null, upcoming:true,
+    amount:"입사비 5만원 + 월 17만원 (식대 포함)",
+    elig:"경기도 및 서울 소재 대학에 진학하는 경기도 내 대학생",
+    url:"https://www.gg.go.kr", checked:"2026-08-15", confidence:"verify", note:"모집 시기 미확인",
+    rules:{ region:["경기"], status:["대학생","대학원생"], todo:["모집 공고 시기 확인"] } },
+
+  { id:"youth-leap-job", name:"청년 일자리도약 장려금", org:"고용노동부",
+    region:"전국", target:["구직"], cat:"취업", open:"2026-01-01", close:null, always:true,
+    amount:"기업에 인건비 지원 (청년 채용 연계)",
+    elig:"취업애로청년을 정규직 채용한 5인 이상 우선지원대상기업. 청년은 취업으로 간접 수혜",
+    url:"https://www.work24.go.kr", checked:"2026-08-15", confidence:"verify",
+    note:"기업이 신청하는 사업 — 구직 시 참여기업 탐색용",
+    rules:{ age:{min:15,max:34,mil:3}, employment:["미취업"],
+            employmentFailMsg:"미취업 상태에서 취업할 때 적용됩니다",
+            unsure:["본인이 아닌 기업이 신청하는 사업 — 참여기업 채용공고를 통해 간접 수혜"] } },
+
+  { id:"kitpa-paper", name:"대학생 IT논문경진대회", org:"KITPA",
+    region:"전국", target:["학생"], cat:"공모전", open:null, close:null, upcoming:true,
+    amount:"수상 시 상금·수상실적",
+    elig:"대학 재적생, 발표일 기준 만 30세 이하. 빅데이터·AI·AI융합응용 주제",
+    url:"https://kitpa.org", checked:"2026-08-08", confidence:"verify",
+    note:"하계 회차 일정 미확인",
+    rules:{ status:["대학생","대학원생"], age:{max:30}, todo:["제출할 논문 원고 준비","회차 일정 확인"] } }
+];
+
+/* ---------------- utils ---------------- */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const DAY = 86400000;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function today(){ const d=new Date(); d.setHours(0,0,0,0); return d; }
+function parseD(s){ if(!s) return null; const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); }
+function daysTo(s){ const d=parseD(s); return d ? Math.round((d-today())/DAY) : null; }
+
+function statusOf(p){
+  if(p.rules && p.rules.closedForever) return "closed";
+  if(p.always) return "always";
+  if(p.upcoming) return "upcoming";
+  const dc = p.close ? daysTo(p.close) : null;
+  const dop = p.open ? daysTo(p.open) : null;
+  if(dc !== null && dc < 0) return "closed";
+  if(dop !== null && dop > 0) return "upcoming";
+  if(dc !== null && dc <= 14) return "urgent";
+  return "open";
+}
+function ddayLabel(p, st){
+  if(st === "always") return "상시";
+  if(st === "upcoming") return "일정 미정";
+  if(!p.close) return "마감 미정";
+  const n = daysTo(p.close);
+  return n === 0 ? "D-DAY" : n < 0 ? "종료" : "D-" + n;
+}
+const PILL = { urgent:"마감 임박", open:"신청 가능", always:"상시 신청", upcoming:"모집 대기", closed:"마감" };
+const CLS  = { urgent:"s-urgent", open:"s-open", always:"s-always", upcoming:"s-idle", closed:"s-closed" };
+function fmtRange(p){
+  if(p.always) return "상시 접수 (예산 소진 시 마감)";
+  if(p.upcoming) return "모집 일정 미공지";
+  return (p.open || "?") + " → " + (p.close || "미정");
+}
+
+/* ============================================================
+   판정 엔진
+   각 규칙을 pass / fail / unknown 으로 평가하고 근거를 남긴다.
+   fail 하나라도 있으면 ❌, 없고 unknown 있으면 ⚠️, 다 통과면 ✅
+   ============================================================ */
+function ageRange(birthYear){
+  const y = new Date().getFullYear();
+  return [y - birthYear - 1, y - birthYear];  // 생일 전 ~ 생일 후 (만 나이)
+}
+
+/* unknowns 를 두 종류로 나눈다:
+   gaps   = 프로필이 비어서 못 정함 → 앱 안에서 해결 가능
+   unsure = 자격 자체가 불확실 → 밖에서 확인해야 함
+   todo   = 자격은 되고 준비만 하면 되는 것 → 판정을 내리지 않음 (다음 액션) */
+function judge(p, prof){
+  const R = p.rules || {};
+  const fails = [], gaps = [], unsure = [], passes = [];
+  const todos = (R.todo || []).slice();
+
+  if(R.closedForever){
+    return { v:"fail", fails:["신규 가입이 종료된 사업입니다"],
+             gaps:[], unsure:[], todos:[], passes:[], unknowns:[] };
+  }
+
+  /* --- 연령 --- */
+  const ageRule = R.age || (R.ageExact != null ? {exact:R.ageExact} : null);
+  if(ageRule){
+    if(!prof.birthYear){
+      gaps.push("출생연도를 넣으면 연령 요건을 판정할 수 있습니다");
+    } else {
+      const [lo, hi] = ageRange(prof.birthYear);
+      if(ageRule.exact != null){
+        if(lo <= ageRule.exact && ageRule.exact <= hi)
+          passes.push(`만 ${ageRule.exact}세 요건 — 올해 해당`);
+        else
+          fails.push(R.ageFailMsg || `만 ${ageRule.exact}세만 해당 (현재 만 ${lo}~${hi}세)`);
+      } else {
+        const min = ageRule.min ?? 0, max = ageRule.max ?? 200;
+        const ext = (prof.military === "군필" && ageRule.mil) ? ageRule.mil : 0;
+        const emax = max + ext;
+        if(hi < min){
+          fails.push(`만 ${min}세 이상부터 (현재 만 ${lo}~${hi}세)`);
+        } else if(lo > emax){
+          fails.push(R.ageFailMsg || `만 ${max}세 이하 대상${ext?` (병역 ${ext}년 연장 적용해도 초과)`:""} — 현재 만 ${lo}~${hi}세`);
+        } else if(lo > max && ext){
+          unsure.push(`병역 연장(최대 ${ext}년)을 적용해야 연령 요건 통과 — 실제 복무기간 확인 필요`);
+        } else if(hi > emax || lo < min){
+          unsure.push(`생일 기준으로 연령 요건이 갈립니다 (현재 만 ${lo}~${hi}세, 기준 ${min}~${max}세)`);
+        } else {
+          passes.push(`연령 ${min}~${max}세 요건 통과 (만 ${lo}~${hi}세)${ext?` · 병역 ${ext}년 연장 가능`:""}`);
+        }
+      }
+    }
+  }
+
+  /* --- 지역 --- */
+  if(R.region){
+    if(!prof.region){
+      gaps.push("거주지를 넣으면 지역 요건을 판정할 수 있습니다");
+    } else {
+      const hit = R.region.some(r => prof.region.includes(r));
+      if(hit) passes.push(`${R.region.join("·")} 거주 요건 통과`);
+      else fails.push(R.regionFailMsg || `${R.region.join("·")} 거주자만 해당 (현재 ${prof.region})`);
+    }
+  }
+
+  /* --- 학교(교내) --- */
+  if(R.school){
+    if(!prof.school){
+      gaps.push(`학교를 넣으면 판정됩니다 (${R.school} 소속 대상)`);
+    } else if(prof.school.includes(R.school)){
+      passes.push(`${R.school} 소속 확인`);
+    } else {
+      fails.push(`${R.school} 소속 학생만 해당 — 다른 학교면 각자 학교 공지를 확인하세요`);
+    }
+  }
+
+  /* --- 신분 --- */
+  if(R.status){
+    if(!prof.status){
+      gaps.push("신분(대학생/직장인 등)을 넣으면 판정됩니다");
+    } else if(R.status.includes(prof.status)){
+      passes.push(`${prof.status} 대상 사업`);
+    } else {
+      fails.push(R.statusFailMsg || `${R.status.join("·")} 대상 (현재 ${prof.status})`);
+    }
+  }
+
+  /* --- 취업상태 --- */
+  if(R.employment){
+    if(!prof.employment){
+      gaps.push("취업 상태를 넣으면 판정됩니다");
+    } else if(R.employment.includes(prof.employment)){
+      passes.push(`${prof.employment} 요건 통과`);
+    } else {
+      fails.push(R.employmentFailMsg || `${R.employment.join("·")} 상태여야 함 (현재 ${prof.employment})`);
+    }
+  }
+
+  /* --- 주거 --- */
+  if(R.housing){
+    if(!prof.housing){
+      gaps.push("주거 형태를 넣으면 판정됩니다");
+    } else if(R.housing.includes(prof.housing)){
+      passes.push(`${prof.housing} 요건 통과`);
+    } else {
+      fails.push(R.housingFailMsg || `${R.housing.join("·")} 거주자 대상 (현재 ${prof.housing})`);
+    }
+  }
+
+  /* --- 소득구간 --- */
+  if(R.incomeMax != null){
+    if(prof.incomeDecile == null){
+      gaps.push(`학자금 지원구간 ${R.incomeMax}구간 이하여야 함 — 구간 미입력`);
+    } else if(prof.incomeDecile <= R.incomeMax){
+      passes.push(`학자금 지원구간 ${prof.incomeDecile}구간 (기준 ${R.incomeMax} 이하) 통과`);
+    } else {
+      fails.push(`학자금 지원구간 ${R.incomeMax}구간 이하 대상 (현재 ${prof.incomeDecile}구간)`);
+    }
+  }
+
+  /* --- 기계로 확인 불가한 자격 요건 --- */
+  (R.unsure || []).forEach(n => unsure.push(n));
+
+  const unknowns = gaps.concat(unsure);
+  const v = fails.length ? "fail" : unknowns.length ? "maybe" : "pass";
+  return { v, fails, gaps, unsure, todos, unknowns, passes };
+}
+
+/* 시간 상태와 자격 판정을 합쳐 최종 버킷 결정 */
+function bucketOf(p, prof){
+  const j = judge(p, prof);
+  const st = statusOf(p);
+  if(j.v === "fail") return { b:"fail", j, st };
+  if(st === "closed" || st === "upcoming") return { b:"wait", j, st };
+  return { b:j.v === "pass" ? "pass" : "maybe", j, st };
+}
+
+const VLABEL = { pass:"✅ 해당", maybe:"⚠️ 확인 필요", fail:"❌ 해당 없음", wait:"⏰ 모집 대기" };
+
+/* ---------------- 카드 ---------------- */
+function cardHTML(p, res){
+  const st = res ? res.st : statusOf(p);
+  const verify = p.confidence === "verify" ? '<span class="verify">확인 필요</span>' : "";
+  let why = "", vb = "";
+  if(res){
+    const j = res.j, b = res.b;
+    vb = `<span class="vbadge ${b}">${VLABEL[b]}</span>`;
+    let lines = [];
+    if(b === "fail"){
+      lines = j.fails.map(t => "✕ " + t);
+    } else if(b === "maybe"){
+      lines = j.gaps.map(t => "◇ " + t).concat(j.unsure.map(t => "? " + t));
+    } else if(b === "wait"){
+      lines = [st === "closed" ? "✕ 모집이 종료됨 — 다음 회차 대기" : "· 모집 일정 미공지"]
+                .concat(j.unsure.slice(0,2).map(t => "? " + t));
+    } else {
+      lines = j.passes.map(t => "✓ " + t);
+    }
+    why = `<div class="why ${b}">${lines.map(l=>`<span>${esc(l)}</span>`).join("")}</div>`;
+    if((b === "pass" || b === "maybe") && j.todos.length){
+      why += `<div class="todo"><span class="todo-k">준비할 것</span>${
+        j.todos.map(t=>`<span>· ${esc(t)}</span>`).join("")}</div>`;
+    }
+  }
+  return `<article class="card ${CLS[st]} ${res && res.b === "fail" ? "v-fail" : ""}">
+    <div class="c-top">
+      ${vb || `<span class="pill">${PILL[st]}</span>`}
+      <span class="tag">${esc(p.cat)}</span>
+      <span class="dday">${ddayLabel(p,st)}</span>
+    </div>
+    <div class="c-name">${esc(p.name)}</div>
+    <div class="c-org">${esc(p.org)} · ${esc(p.region)}</div>
+    <div class="c-amount">${esc(p.amount)}</div>
+    ${why}
+    <div class="c-elig">${esc(p.elig)}</div>
+    <div class="c-dates">${fmtRange(p)}</div>
+    ${p.note ? `<div class="c-elig" style="color:var(--ink-3);font-size:12px">※ ${esc(p.note)}</div>` : ""}
+    <div class="c-foot">
+      <a href="${p.url}" target="_blank" rel="noopener">원문 →</a>
+      ${verify}<span class="c-checked">조회 ${p.checked}</span>
+    </div>
+  </article>`;
+}
+
+/* ---------------- 판정 화면 ---------------- */
+function renderVerdict(){
+  const has = !!profile;
+  $("#vNoProfile").hidden = has;
+  $("#vOut").hidden = !has;
+  $("#deepNo").hidden = has;
+  $("#deepYes").hidden = !has;
+  if(!has){ $("#vbadge").hidden = true; return; }
+
+  const results = POLICIES.map(p => ({ p, ...bucketOf(p, profile) }));
+  const g = b => results.filter(r => r.b === b).sort((a,z)=>{
+    const da = a.p.close ? daysTo(a.p.close) : 9999;
+    const dz = z.p.close ? daysTo(z.p.close) : 9999;
+    return (da<0?9999:da) - (dz<0?9999:dz);
+  });
+  const pass = g("pass"), maybe = g("maybe"), wait = g("wait"), fail = g("fail");
+
+  $("#vbadge").hidden = false;
+  $("#vbadge").textContent = pass.length;
+
+  /* 1순위: ✅ 중 마감 가장 임박. 없으면 ⚠️ 중 임박 */
+  const top = pass[0] || maybe[0] || null;
+  let hero = "";
+  if(top){
+    const st = top.st, p = top.p;
+    const act = top.b === "pass"
+      ? (top.j.todos[0] || p.note || p.elig)
+      : (top.j.gaps[0]
+          ? "프로필을 채우면 확정됩니다 — " + top.j.gaps[0]
+          : "먼저 확인할 것 — " + top.j.unsure[0]);
+    hero = `<div class="hero">
+      <div class="hero-k">지금 1순위</div>
+      <div class="hero-n">${esc(p.name)}</div>
+      <div class="hero-meta">
+        <span><b>${ddayLabel(p,st)}</b>${p.close?` · ${p.close} 마감`:""}</span>
+        <span><b>${esc(p.amount)}</b></span>
+        <span>${VLABEL[top.b]}</span>
+      </div>
+      <div class="hero-act">📋 ${esc(act)}</div>
+      <div class="btnrow"><a class="btn primary" href="${p.url}" target="_blank" rel="noopener">공고 원문 열기 →</a></div>
+    </div>`;
+  } else {
+    hero = `<div class="hero" style="border-color:var(--line);border-left-color:var(--idle)">
+      <div class="hero-k" style="color:var(--idle)">지금 1순위</div>
+      <div class="hero-n">지금 바로 지원 가능한 건 없습니다</div>
+      <div class="hero-act">아래 ⏰ 모집 대기 항목의 다음 회차를 노리거나, 프로필을 더 채워 ⚠️ 항목을 확정해보세요.</div>
+    </div>`;
+  }
+
+  const sec = (title, arr, open) => !arr.length ? "" :
+    `<details class="vsec" ${open?"open":""}>
+      <summary><span class="vsec-t">${title}</span><span class="vsec-c">${arr.length}</span></summary>
+      <div class="grid">${arr.map(r => cardHTML(r.p, r)).join("")}</div>
+    </details>`;
+
+  $("#vOut").innerHTML = hero
+    + sec("✅ 지원 가능", pass, true)
+    + sec("⚠️ 확인 필요", maybe, true)
+    + sec("⏰ 모집 대기 — 자격은 되지만 지금 접수 안 함", wait, false)
+    + sec("❌ 해당 없음", fail, false);
+}
+
+/* ---------------- 전체 목록 ---------------- */
+const F = { status:"all", target:"all", region:"all" };
+function passesFilter(p){
+  const st = statusOf(p);
+  if(F.status==="live"   && !(st==="urgent"||st==="open")) return false;
+  if(F.status==="always" && st!=="always") return false;
+  if(F.status==="closed" && !(st==="closed"||st==="upcoming")) return false;
+  if(F.target!=="all" && !p.target.includes(F.target)) return false;
+  if(F.region!=="all" && p.region!==F.region) return false;
+  return true;
+}
+const ORDER = { urgent:0, open:1, always:2, upcoming:3, closed:4 };
+function renderPool(){
+  const list = POLICIES.filter(passesFilter).sort((a,b)=>{
+    const sa=statusOf(a), sb=statusOf(b);
+    if(ORDER[sa]!==ORDER[sb]) return ORDER[sa]-ORDER[sb];
+    return (a.close?daysTo(a.close):9999) - (b.close?daysTo(b.close):9999);
+  });
+  $("#grid").innerHTML = list.map(p => cardHTML(p, profile ? bucketOf(p, profile) : null)).join("");
+  $("#empty").hidden = list.length > 0;
+  const cnt = s => POLICIES.filter(p=>statusOf(p)===s).length;
+  $("#m-count").textContent = POLICIES.length;
+  $("#s-open").textContent   = cnt("urgent")+cnt("open");
+  $("#s-urgent").textContent = cnt("urgent");
+  $("#s-always").textContent = cnt("always");
+  $("#s-closed").textContent = cnt("closed")+cnt("upcoming");
+}
+$$(".frow").forEach(row=>{
+  const g = row.dataset.group;
+  row.addEventListener("click", e=>{
+    const b = e.target.closest(".chip"); if(!b) return;
+    row.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    F[g] = b.dataset.v; renderPool();
+  });
+});
+
+/* ---------------- 탭 ---------------- */
+const TABS = [["t-verdict","p-verdict"],["t-pool","p-pool"],["t-me","p-me"],["t-deep","p-deep"]];
+function showTab(id){
+  TABS.forEach(([t,p])=>{
+    const on = t===id;
+    $("#"+t).setAttribute("aria-selected", String(on));
+    $("#"+p).hidden = !on;
+  });
+  if(id==="t-deep") buildDeep();
+  window.scrollTo({top:0, behavior:"instant"});
+}
+TABS.forEach(([t])=> $("#"+t).addEventListener("click", ()=>showTab(t)));
+$("#goProfile").addEventListener("click", ()=>showTab("t-me"));
+$("#goProfile2").addEventListener("click", ()=>showTab("t-me"));
+
+/* ---------------- 프로필 ---------------- */
+const KEY="policyboard.profile.v2", DKEY="policyboard.deep.v1";
+let profile = null;
+
+function fillForm(){
+  if(!profile) return;
+  $("#f-birth").value   = profile.birthYear   || "";
+  $("#f-region").value  = profile.region      || "";
+  $("#f-status").value  = profile.status      || "";
+  $("#f-school").value  = profile.school      || "";
+  $("#f-emp").value     = profile.employment  || "";
+  $("#f-income").value  = profile.incomeDecile == null ? "" : String(profile.incomeDecile);
+  $("#f-housing").value = profile.housing     || "";
+  $("#f-mil").value     = profile.military    || "";
+  $("#f-notes").value   = profile.notes       || "";
+}
+function readForm(){
+  const num = v => v === "" ? null : Number(v);
+  return {
+    birthYear:    num($("#f-birth").value),
+    region:       $("#f-region").value.trim() || null,
+    status:       $("#f-status").value || null,
+    school:       $("#f-school").value.trim() || null,
+    employment:   $("#f-emp").value || null,
+    incomeDecile: num($("#f-income").value),
+    housing:      $("#f-housing").value || null,
+    military:     $("#f-mil").value || null,
+    notes:        $("#f-notes").value.trim() || null,
+    interests:    (profile && profile.interests) || null
+  };
+}
+const store = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+};
+function saveProfile(obj, msgEl, msg){
+  profile = obj;
+  const okStore = store.set(KEY, JSON.stringify(obj));
+  if(!okStore && msgEl){
+    msgEl.innerHTML = '<div class="msg err">판정은 되지만 저장에 실패했습니다 (브라우저 저장소 차단). 새로고침하면 사라집니다.</div>';
+    renderVerdict(); renderPool(); return;
+  }
+  renderVerdict(); renderPool();
+  if(msgEl) msgEl.innerHTML = `<div class="msg ok">${msg}</div>`;
+}
+
+$("#saveForm").addEventListener("click", ()=>{
+  const o = readForm();
+  if(!o.birthYear && !o.region && !o.status){
+    $("#formMsg").innerHTML = '<div class="msg err">출생연도·거주지·신분 중 최소 하나는 넣어주세요.</div>';
+    return;
+  }
+  saveProfile(o, $("#formMsg"), "저장했습니다. 판정 결과로 이동합니다.");
+  setTimeout(()=>showTab("t-verdict"), 450);
+});
+$("#clearProfile").addEventListener("click", ()=>{
+  store.del(KEY); profile = null;
+  ["f-birth","f-region","f-status","f-school","f-emp","f-income","f-housing","f-mil","f-notes"]
+    .forEach(id => $("#"+id).value = "");
+  renderVerdict(); renderPool();
+  $("#formMsg").innerHTML = '<div class="msg ok">삭제했습니다.</div>';
+});
+
+/* LLM 프로필 프롬프트 */
+const PROFILE_PROMPT = `너는 지금부터 내 "청년정책 판정용 프로필"을 만들어야 해.
+
+[규칙]
+1. 우리 대화 기록·메모리에서 나에 대해 이미 아는 정보를 먼저 활용해.
+2. 모르는 항목은 절대 추측하지 마. 나에게 짧게 되물어봐 (한 번에 다 물어봐도 됨).
+3. 모든 항목이 채워지면 아래 스키마 그대로 JSON 코드블록 하나만 출력해. 다른 말은 붙이지 마.
+
+[스키마]
+{
+  "birthYear": 2003,
+  "region": "경기 안산시",
+  "status": "대학생",
+  "school": "○○대 △△학과 3학년",
+  "employment": "미취업",
+  "incomeDecile": null,
+  "housing": "본가",
+  "military": "군필",
+  "interests": ["장학금", "AI", "연구"],
+  "notes": "지원 자격·가점에 영향 줄 만한 활동이나 경력"
+}
+
+[항목 규칙 — 값은 반드시 아래 중 하나]
+- birthYear: 출생연도 4자리 숫자
+- region: "서울 관악구" / "경기 안산시" 형태. 시군구까지.
+- status: 대학생 | 대학원생 | 직장인 | 구직중 | 프리랜서
+- employment: 재직 | 미취업 | 아르바이트
+- incomeDecile: 학자금 지원구간 0~10 숫자. 모르면 반드시 null (추측 금지)
+- housing: 본가 | 자취(월세) | 자취(전세) | 기숙사
+- military: 군필 | 미필 | 해당없음
+- notes: 인턴·연구·수상·자격증·봉사 등. 판정 품질을 가장 크게 좌우함.`;
+$("#profilePrompt").textContent = PROFILE_PROMPT;
+
+function copyText(text, btn, label){
+  const done = ok => { btn.textContent = ok ? "복사됨 ✓" : "복사 실패";
+    setTimeout(()=>btn.textContent = label, 1600); };
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(text).then(()=>done(true), ()=>done(false));
+  } else {
+    const ta=document.createElement("textarea"); ta.value=text;
+    ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    let ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta); done(ok);
+  }
+}
+$("#copyProfile").addEventListener("click", e=>copyText(PROFILE_PROMPT, e.currentTarget, "프롬프트 복사"));
+
+function extractJSON(raw){
+  let s = raw.trim();
+  const f = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if(f) s = f[1].trim();
+  const a=s.indexOf("{"), b=s.lastIndexOf("}");
+  if(a===-1||b===-1||b<a) throw new Error("JSON 객체를 찾지 못했습니다");
+  return JSON.parse(s.slice(a,b+1));
+}
+$("#saveJson").addEventListener("click", ()=>{
+  const raw = $("#profileIn").value, box = $("#profileMsg");
+  if(!raw.trim()){ box.innerHTML='<div class="msg err">붙여넣은 내용이 없습니다.</div>'; return; }
+  try{
+    const o = extractJSON(raw);
+    if(o.incomeDecile === undefined) o.incomeDecile = null;
+    saveProfile(o, box, "적용했습니다. 아래 폼에도 반영됐습니다.");
+    fillForm(); $("#profileIn").value = "";
+    setTimeout(()=>showTab("t-verdict"), 600);
+  }catch(err){
+    box.innerHTML = `<div class="msg err">읽지 못했습니다 — ${esc(err.message)}</div>`;
+  }
+});
+
+/* ---------------- LLM 심화 ---------------- */
+function buildDeep(){
+  if(!profile) return;
+  const results = POLICIES.map(p => ({p, ...bucketOf(p, profile)}));
+  const maybe = results.filter(r => r.b==="maybe");
+  const pass  = results.filter(r => r.b==="pass");
+
+  const block = arr => arr.map(r=>{
+    const L = [`- [${r.p.id}] ${r.p.name} (${r.p.org}) — ${ddayLabel(r.p, r.st)}`,
+               `  지원: ${r.p.amount}`, `  자격: ${r.p.elig}`];
+    if(r.j.unsure.length) L.push(`  규칙엔진이 확인 못한 자격: ${r.j.unsure.join(" / ")}`);
+    if(r.j.gaps.length)   L.push(`  내 프로필에 비어있는 값: ${r.j.gaps.join(" / ")}`);
+    if(r.j.todos.length)  L.push(`  준비물: ${r.j.todos.join(" / ")}`);
+    L.push(`  출처: ${r.p.url}`);
+    return L.join("\n");
+  }).join("\n") || "  (없음)";
+
+  const prompt = `내 프로필과, 규칙 엔진이 1차 판정한 결과야.
+규칙 엔진은 연령·지역·신분·소득구간처럼 기계로 확인 가능한 것만 판정했어.
+너는 규칙이 못 정한 부분을 내 상황에 비춰 판단해줘.
+
+[내 프로필]
+${JSON.stringify(profile, null, 2)}
+
+[✅ 규칙상 지원 가능 — 우선순위를 매겨줘]
+${block(pass)}
+
+[⚠️ 규칙이 확정 못한 것 — 내가 될 가능성이 있는지 판단해줘]
+${block(maybe)}
+
+[해줄 일]
+1. ⚠️ 항목마다 내 프로필·특이사항에 비춰 "될 가능성 높음 / 낮음 / 확인 필요"로 정리하고 근거를 한 줄씩 써.
+2. ✅ 항목까지 합쳐 **오늘 뭐부터 할지 딱 하나**를 골라줘. 마감 임박도와 노력 대비 효과를 같이 봐.
+3. 각 항목에 대해 **내가 지금 당장 할 첫 행동**을 한 줄로.
+4. 내 특이사항(notes)을 살려 지원서에 쓸 각도가 있으면 짧게 제안해줘.
+5. 위 목록에 없는 정책을 지어내지 마. 모르면 모른다고 해.
+
+[출력]
+## 🥇 오늘 이거부터
+## ⚠️ 판단 결과
+## 📌 지원서에 쓸 각도
+간결하게. 표는 쓰지 마.`;
+
+  $("#deepPrompt").textContent = prompt;
+  $("#copyDeep").onclick = e => copyText(prompt, e.currentTarget, "프롬프트 복사");
+}
+$("#saveDeep").addEventListener("click", ()=>{
+  const v = $("#deepIn").value.trim(); if(!v) return;
+  store.set(DKEY, v);
+  $("#deepResult").hidden = false; $("#deepResult").textContent = v; $("#deepIn").value="";
+});
+$("#clearDeep").addEventListener("click", ()=>{
+  store.del(DKEY);
+  $("#deepResult").hidden = true; $("#deepResult").textContent="";
+});
+
+/* ---------------- 테마 ---------------- */
+$("#themeBtn").addEventListener("click", ()=>{
+  const cur = document.documentElement.getAttribute("data-theme");
+  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme",
+    cur ? (cur==="dark"?"light":"dark") : (dark?"light":"dark"));
+});
+
+/* ---------------- boot ---------------- */
+try{ const r = store.get(KEY); if(r) profile = JSON.parse(r); }catch(e){ profile = null; }
+fillForm();
+const sd = store.get(DKEY);
+if(sd){ $("#deepResult").hidden=false; $("#deepResult").textContent=sd; }
+renderVerdict();
+renderPool();
+if(!profile) showTab("t-me");
+</script>
