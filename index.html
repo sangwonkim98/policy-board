@@ -1,6 +1,14 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="서울·경기 학생·직장인이 지금 신청 가능한 청년정책을 근거와 함께 판정받는 도구">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#F5F7FA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1017" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="이거 나 되나">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>이거 나 되나 — 수도권 청년정책 판정기</title>
 <style>
   :root{
@@ -240,6 +248,27 @@
   footer{border-top:1px solid var(--line); margin-top:34px; padding:19px 0 40px;
     font-size:12px; color:var(--ink-3); line-height:1.7}
 
+  /* ---- 설치 배너 (PWA) ---- */
+  #install{
+    position:fixed; left:0; right:0; bottom:0; z-index:40;
+    background:var(--surface); border-top:1px solid var(--line);
+    box-shadow:0 -6px 24px -14px rgba(0,0,0,.35);
+    padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  #install[hidden]{display:none}
+  #install .ic{width:34px; height:34px; border-radius:8px; flex:none}
+  #install .tx{flex:1; min-width:180px; font-size:13px; line-height:1.5; color:var(--ink-2)}
+  #install .tx b{color:var(--ink); font-weight:750; display:block; font-size:14px}
+
+  /* ---- 노치·홈바 대응 (홈화면 실행 시) ---- */
+  header{padding-top:env(safe-area-inset-top)}
+  .wrap{
+    padding-left:max(20px,env(safe-area-inset-left));
+    padding-right:max(20px,env(safe-area-inset-right));
+  }
+  body.has-install main{padding-bottom:120px}
+
   @media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }
 </style>
 
@@ -460,6 +489,15 @@
     프로필은 이 브라우저(localStorage)에만 저장되며 서버로 전송되지 않습니다. · 데이터 조사 기준일 2026-08-15
   </footer>
 </main>
+
+<div id="install" hidden>
+  <img class="ic" src="/icon-192.png" alt="" width="34" height="34">
+  <span class="tx"><b>홈 화면에 추가</b><span id="installHow"></span></span>
+  <span style="display:flex;gap:8px">
+    <button class="btn primary" id="installGo" type="button" hidden>설치</button>
+    <button class="btn ghost" id="installNo" type="button">닫기</button>
+  </span>
+</div>
 
 <script>
 "use strict";
@@ -1207,6 +1245,52 @@ $("#themeBtn").addEventListener("click", ()=>{
   document.documentElement.setAttribute("data-theme",
     cur ? (cur==="dark"?"light":"dark") : (dark?"light":"dark"));
 });
+
+/* ---------------- PWA: 설치 안내 + 서비스 워커 ---------------- */
+(function(){
+  const bar = $("#install"), go = $("#installGo"), no = $("#installNo"), how = $("#installHow");
+  const DISMISS = "policyboard.installDismissed";
+  const standalone = window.matchMedia("(display-mode: standalone)").matches
+                     || window.navigator.standalone === true;
+  const iOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+  function show(msg, withBtn){
+    if(standalone || store.get(DISMISS)) return;
+    how.textContent = msg;
+    go.hidden = !withBtn;
+    bar.hidden = false;
+    document.body.classList.add("has-install");
+  }
+  function hide(){
+    bar.hidden = true;
+    document.body.classList.remove("has-install");
+  }
+  no.addEventListener("click", ()=>{ store.set(DISMISS,"1"); hide(); });
+
+  let deferred = null;
+  window.addEventListener("beforeinstallprompt", e=>{
+    e.preventDefault(); deferred = e;
+    show("설치하면 앱처럼 열리고, 지하철에서도 오프라인으로 볼 수 있어요.", true);
+  });
+  go.addEventListener("click", async ()=>{
+    if(!deferred) return;
+    deferred.prompt();
+    const { outcome } = await deferred.userChoice;
+    deferred = null;
+    if(outcome === "accepted") hide();
+  });
+  window.addEventListener("appinstalled", ()=>{ store.set(DISMISS,"1"); hide(); });
+
+  // iOS 사파리는 beforeinstallprompt 를 지원하지 않아 수동 안내가 필요하다
+  if(iOS && !standalone){
+    setTimeout(()=>show("사파리 하단 공유 버튼 → “홈 화면에 추가” 를 누르면 앱처럼 쓸 수 있어요.", false), 2500);
+  }
+
+  // isSecureContext 는 https 와 localhost 양쪽에서 true — 로컬 테스트도 가능해야 한다
+  if("serviceWorker" in navigator && window.isSecureContext){
+    window.addEventListener("load", ()=>{ navigator.serviceWorker.register("/sw.js").catch(()=>{}); });
+  }
+})();
 
 /* ---------------- boot ---------------- */
 try{ const r = store.get(KEY); if(r) profile = JSON.parse(r); }catch(e){ profile = null; }
