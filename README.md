@@ -1,95 +1,115 @@
-# 이거 나 되나 — 수도권 청년정책 판정기
+# policy-board
 
-서울·경기 학생·직장인이 **지금 실제로 신청 가능한 청년정책**을 모아 보고,
-자기 조건으로 ✅ / ⚠️ / ❌ 판정을 **근거와 함께** 받는 정적 웹 도구.
+이거 나 되나 (수도권 청년정책 판정기): a static web tool that lists youth policies students and workers in Seoul and Gyeonggi can apply for now, and gives each one a pass / maybe / fail verdict with the reason.
 
-## 왜 만들었나
+> **Status:** ongoing · **Period:** 2026-08-15 ~ (last code change 2026-08-16; the policy database job commits daily, latest 2026-10-31) · **Visibility:** public
+> **Outcome:** a single-page app (`index.html`) with a rule engine, a curated database of 23 policies, PWA install and offline support, and a daily GitHub Actions update job.
+> **Next step:** the 2026-10-31 update report says `YOUTH_POLICY_API_KEY` is not set, so the daily job fetches nothing new. Setting that secret is what turns on broad automatic collection. The 66 basic local governments listed as not collected are still open.
 
-온통청년·경기청년포털에도 필터는 있다. 그런데 안 쓰이는 이유는,
-필터를 통과한 수십 건 중에 **내가 진짜 되는 게 뭔지**를 모르기 때문이다.
-요건을 하나하나 대조하는 게 진짜 노동이다.
+## What and why
 
-그래서 이 도구의 1급 시민은 목록이 아니라 **판정과 그 근거**다.
+Government portals such as 온통청년 and 경기청년포털 already have filters. People still do not use them much, because after filtering they get dozens of results and do not know which ones they actually qualify for. Checking each requirement by hand is the real work.
+
+So the main output here is the verdict and its reason, not the list. Two examples from the UI:
 
 > 안산시 청년 전·월세보증금 대출이자 지원 → ❌ 전·월세 거주자만 해당됩니다
-> 국가근로장학금 2차 → ⚠️ 학자금 지원구간 9구간 이하여야 함 — 구간 미입력
+> 국가근로장학금 2차 → ⚠️ 학자금 지원구간 9구간 이하여야 함 (구간 미입력)
 
-## 구조
+The tool is for students and workers in the Seoul metropolitan area. The UI is in Korean. It is unofficial: it is not affiliated with any government body and does not guarantee accuracy. Verdicts are for reference only; always check the original notice before applying.
 
-정적 HTML + 정적 데이터 파일. 서버도, 빌드도, 런타임 의존성도 없다.
+### Verdict engine
 
-```
-index.html   판정 엔진 + UI
-data/policies.json  정책 DB 원본
-data/policies.js    정적 앱 주입용 생성 파일
-tools/update-policies.mjs  정책 DB 검증·갱신 스크립트
-serve.py     로컬 확인용 정적 서버
-```
+Each policy has `rules`. The engine compares them with the user's profile and sorts every reason into one of four kinds:
 
-### 판정 엔진
+| Mark | Meaning | Effect on verdict |
+|------|---------|-------------------|
+| `✕` | clearly not eligible | ❌ |
+| `◇` | profile field empty, cannot decide | ⚠️ (user can fix in the app) |
+| `?` | eligibility itself is uncertain | ⚠️ (needs outside check) |
+| `준비할 것` | eligible, only preparation needed | none, stays ✅ |
 
-각 정책의 `rules`를 프로필과 대조해 네 갈래로 나눈다.
+The last kind is the important one. Without it almost every policy has some document to prepare, and the number of ✅ results stays at zero.
 
-| 표시 | 의미 | 판정에 영향 |
-|------|------|------------|
-| `✕` | 명확히 탈락 | ❌ |
-| `◇` | 프로필이 비어서 못 정함 | ⚠️ (앱에서 해결 가능) |
-| `?` | 자격 자체가 불확실 | ⚠️ (외부 확인 필요) |
-| `준비할 것` | 자격은 되고 준비만 하면 됨 | 없음 — ✅ 유지 |
+Age is handled as a range. A birth year alone cannot fix someone's exact age, so the engine keeps `[before birthday, after birthday]`; if the range crosses a threshold it marks ⚠️ instead of deciding. Age extensions for military service are also ⚠️, because the length of service is unknown.
 
-마지막 구분이 핵심이다. 이걸 나누지 않으면 모든 정책에 준비물이 하나씩은 있어서
-✅가 영원히 0건이 된다.
+### What the engine does not judge
 
-연령은 출생연도만으로 만 나이를 확정할 수 없으므로 `[생일 전, 생일 후]` 범위로
-다루고, 범위가 기준선에 걸치면 단정하지 않고 ⚠️로 둔다.
-병역 연령 연장도 복무기간을 모르므로 ⚠️로 둔다.
+The rule engine checks only what a machine can check: age, region, status, income bracket. It cannot judge grades, awards or how well someone's activities fit. For those, the page assembles a prompt and the user pastes it into their own ChatGPT or Claude. No API key or server is needed, and each user keeps the LLM they already use.
 
-## 개인정보
+### Privacy
 
-프로필은 **브라우저 localStorage에만** 저장된다. 서버로 전송하지 않는다.
-백엔드가 없으므로 전송할 곳 자체가 없다.
+The profile is stored only in the browser's `localStorage`. When the site runs behind `worker.js` (Cloudflare Worker), the page also posts coarse anonymous events to `/api/e`: region bucket (서울, 경기, 인천, 기타), status, age band, and counts of pass/maybe/fail verdicts. Birth year, school and notes are dropped on the client. The visitor token is a hash of IP, user agent and date, so it changes every day. Events expire after 90 days. Stats are off when Do Not Track is set, when the user opts out (`policyboard.noStats` in `localStorage`), and on the local server at `127.0.0.1:8765`.
 
-## LLM 연동
+## Usage
 
-규칙 엔진은 연령·지역·신분·소득구간처럼 **기계로 확인 가능한 것**만 판정한다.
-성적·입상 실적·활동 적합도는 판단하지 못한다.
+Requirements: Python 3 for the local server, Node.js (the workflow uses Node 22) for the updater. No build step, no runtime dependencies.
 
-그 빈칸은 사용자가 **자기 LLM 구독**으로 메운다 — 페이지가 프롬프트를 조립해주고,
-사용자가 자기 ChatGPT·Claude에 붙여넣는다.
-API 키도 서버도 필요 없고, 각자 쓰던 LLM을 쓴다.
-
-## 로컬에서 보기
+View locally:
 
 ```bash
 python3 serve.py   # http://127.0.0.1:8765
 ```
 
-## 데이터
-
-`data/policies.json`의 `policies` 배열이 전부다. `data/policies.js`는 앱이 바로 읽도록 생성한 파일이다.
-
-수집 범위는 중앙부처(한국장학재단·국토부·고용노동부) + 서울시·경기도 광역 +
-안산시 + 가톨릭대 교내 장학 공지.
-
-**완전하지 않다.** 기초지자체 66곳은 미수집이고 교내 장학은 가톨릭대 기준이다.
-그래서 "전부 있다"가 아니라 "훑어서 판정해준다"로 포지셔닝한다.
-각 항목은 원문 링크와 조회일을 함께 싣고, 불확실한 값은 `confidence: "verify"`로 표시한다.
-
-### 갱신
+Update the policy database:
 
 ```bash
 node tools/update-policies.mjs
 ```
 
-온통청년 청년정책 OPEN API 키가 있으면 더 넓게 자동 수집한다.
+The updater validates required fields, merges imported rows by `id`, regenerates `data/policies.js`, and writes `data/update-report.json`. With an Ontong Youth Policy OPEN API key it also collects policies automatically:
 
 ```bash
 YOUTH_POLICY_API_KEY=... node tools/update-policies.mjs
 ```
 
-GitHub Actions에 `YOUTH_POLICY_API_KEY` secret을 넣으면 `.github/workflows/update-policies.yml`이 매일 새벽 DB를 갱신하고 변경분을 커밋한다.
+Environment variables read by the updater:
 
-## 면책
+| Name | Purpose |
+|---|---|
+| `YOUTH_POLICY_API_KEY` | Ontong Youth Policy OPEN API key. Without it, the updater only validates and regenerates. |
+| `YOUTH_POLICY_MAX_PAGES` | Pages to fetch (default 5; the workflow sets 10). |
+| `YOUTH_POLICY_PAGE_SIZE` | Rows per page (default 100). |
 
-공공 정책 정보를 요약·정리한 **비공식** 도구다. 정부·지자체와 무관하며
-정보의 정확성을 보장하지 않는다. 판정은 참고용이며 **신청 전 반드시 원문 공고를 확인**할 것.
+Imported policies are marked `confidence: "verify"`, because their eligibility text needs human review before strict pass/fail rules can be trusted. Manually curated rules are kept unless the imported row has a newer value.
+
+`.github/workflows/update-policies.yml` runs the updater every day at 04:12 Asia/Seoul (and on manual dispatch) with the `YOUTH_POLICY_API_KEY` repository secret, then commits any change to the three data files.
+
+Deployment: the repository root is the static output for Cloudflare Pages (`_headers` sets security headers). `worker.js` serves the static assets and the two stats endpoints, `/api/e` and `/api/stats`; it needs a KV binding named `STATS` and silently skips stats without it. The Wrangler config (`wrangler.jsonc`) is gitignored and not in the repository.
+
+## Layout
+
+| Path | What it holds |
+|---|---|
+| `index.html` | The whole app: verdict engine, UI, prompt builder, stats client. |
+| `data/policies.json` | Canonical policy database (`policies` array, sources, schema version). |
+| `data/policies.js` | Generated copy that sets `window.POLICY_DB` for the static app. |
+| `data/update-report.json` | Result of the last updater run. |
+| `data/README.md` | Notes on the database and updater limits. |
+| `tools/update-policies.mjs` | Validates and updates the database, optionally from the OPEN API. |
+| `tools/sources.json` | Data sources and how each one is reviewed. |
+| `.github/workflows/update-policies.yml` | Daily update job. |
+| `worker.js` | Cloudflare Worker: static assets plus anonymous stats in KV. |
+| `sw.js`, `manifest.webmanifest`, `icon-*.png`, `apple-touch-icon.png` | PWA: offline cache and home screen install. |
+| `serve.py` | Local static server on port 8765 (threaded, so the service worker can register). |
+| `_headers`, `robots.txt` | Cloudflare Pages headers and crawler rules. |
+| `DESIGN.md` | Visual rules for the UI (Korean). Read it before changing the screen. |
+
+## Related
+
+- Project list on the owner's site: https://sangwon.sw-kim.com/projects/
+
+## Notes
+
+### Data coverage
+
+Sources collected: central agencies (한국장학재단, 국토부, 고용노동부), the Seoul and Gyeonggi provincial governments, 안산시, and 가톨릭대 campus scholarship notices. `tools/sources.json` also lists 청년몽땅정보통 and 경기청년포털 as portals for manual review.
+
+The database is not complete. The 66 basic local governments are not collected, and campus scholarships cover only 가톨릭대. The tool is meant to scan and give a verdict, not to list everything. Every entry carries a link to the original notice and the date it was checked, and uncertain values are marked `confidence: "verify"`.
+
+### Caching
+
+`sw.js` uses network-first for `index.html`, so an online user always sees the latest deadlines, and cache-first for icons and the manifest. Offline, both fall back to the cache. `_headers` sets `Cache-Control: max-age=0, must-revalidate` on `index.html`.
+
+### Visual QA
+
+`DESIGN.md` describes the check loop: run `python3 serve.py`, check the console and network, take screenshots at 390x844, 768x1024 and 1280x900, and confirm there is no overlapping or clipped text and no horizontal scroll.
