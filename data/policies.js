@@ -1,6 +1,6 @@
 window.POLICY_DB_META = {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T00:12:47.303Z",
+  "generatedAt": "2026-11-14T00:18:06.967Z",
   "sources": [
     "manual"
   ]
